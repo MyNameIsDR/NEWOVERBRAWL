@@ -34,6 +34,7 @@ func _ready():
 	add_state('BAIR')
 	add_state('FAIR')
 	add_state('DAIR')
+	add_state('JAB')	
 	call_deferred("set_state", states.STAND)
 
 func state_logic(delta):
@@ -650,7 +651,7 @@ func get_transition(delta):
 			if Input.is_action_pressed("up_%s" % id):
 				parent._frame()
 				return states.UP_TILT
-			if Input.is_action_pressed("down_%s" % id):
+			if Input.is_action_pressed("dtilt_%s" % id) or Input.is_action_pressed("down_%s" % id):
 				parent._frame()
 				return states.DOWN_TILT
 			if Input.is_action_pressed("left_%s" % id):
@@ -725,6 +726,21 @@ func get_transition(delta):
 				else:
 					parent._frame()
 					return states.STAND	
+		
+		states.JAB:
+			if parent.frame == 0:
+				parent.JAB()
+				pass
+			if parent.frame >= 1:
+				if parent.velocity.x > 0:
+					parent.velocity.x += -parent.TRACTION*3
+					parent.velocity.x = clampf(parent.velocity.x, 0, parent.velocity.x)
+				elif parent.velocity.x < 0:
+					parent.velocity.x += parent.TRACTION*3
+					parent.velocity.x = clampf(parent.velocity.x, parent.velocity.x, 0)
+			if parent.JAB() == true:
+				parent._frame()
+				return states.STAND
 
 func enter_state(new_state, old_state):
 	match new_state:
@@ -810,6 +826,9 @@ func enter_state(new_state, old_state):
 		states.FORWARD_TILT:
 			parent.play_animation("Forward_Tilt")
 			parent.states.text = str("FORWARD_TILT")
+		states.JAB:
+			parent.play_animation("Jab")
+			parent.states.text = str("JAB")
 		
 func exit_state(old_state, new_state):
 	pass

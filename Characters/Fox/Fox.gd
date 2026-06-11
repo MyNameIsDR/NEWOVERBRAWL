@@ -153,6 +153,12 @@ func FORWARD_TILT():
 		create_hitbox(52, 20, 6, 60, 40, 150, 3, "normal", Vector2(22, 8), 0, 1)
 	if frame >= 8:
 		return true
+	
+func JAB():
+	if frame == 1:
+		create_hitbox(55, 22, 10, 0, 2, 70, 0, "normal", Vector2(54, 2), 0, 1)
+	if frame >= 15:
+		return true
 
 func _hit_pause(delta):
 		if hit_pause < hit_pause_dur:

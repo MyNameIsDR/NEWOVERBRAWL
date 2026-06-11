@@ -142,6 +142,11 @@ special_2={
 "deadzone": 0.5,
 "events": []
 }
+dtilt_1={
+"deadzone": 0.5,
+"events": [Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":3,"axis_value":1.0,"script":null)
+]
+}
 
 [layer_names]
 
