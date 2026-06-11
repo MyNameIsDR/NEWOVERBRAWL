@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="(SYNC)Overbrawl(4.0)"
+config/name="THISONEISSINK"
 run/main_scene="res://Stages/Test stage.tscn"
 config/features=PackedStringArray("4.0")
 config/icon="res://icon.png"
