@@ -1,5 +1,6 @@
-[gd_scene load_steps=12 format=3 uid="uid://dd52dupmwbeu2"]
+[gd_scene load_steps=13 format=3 uid="uid://dd52dupmwbeu2"]
 
+[ext_resource type="PackedScene" uid="uid://fi0skhvg6jf3" path="res://Characters/Fox/scripts/attacks/fox_laser.tscn" id="3_2afu7"]
 [ext_resource type="SpriteFrames" uid="uid://0g5ic1f4ncm3" path="res://Characters/Fox/FoxSprites.tres" id="4_nhbsj"]
 [ext_resource type="AnimationLibrary" uid="uid://b4x277cgkq0wt" path="res://Characters/Fox/FoxAnimationLibrary.res" id="5_j2er4"]
 [ext_resource type="Script" path="res://Characters/Fox/StateMachineFox.gd" id="33"]
@@ -35,6 +36,7 @@ platform_on_leave = 2
 platform_floor_layers = 4278190086
 script = ExtResource("34")
 hitbox = ExtResource("35")
+projectile = ExtResource("3_2afu7")
 
 [node name="Frames" type="Label" parent="."]
 offset_left = -14.0
@@ -111,3 +113,6 @@ position = Vector2(54, 2)
 scale = Vector2(0.875902, 1)
 shape = SubResource("186")
 disabled = true
+
+[node name="gun_pos" type="Marker2D" parent="."]
+position = Vector2(46, 3)

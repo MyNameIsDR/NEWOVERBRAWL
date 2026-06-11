@@ -28,6 +28,7 @@ func _ready():
 	add_state('DOWN_TILT')
 	add_state('UP_TILT')
 	add_state('FORWARD_TILT')
+	add_state('NEUTRAL_SPECIAL')	
 	add_state('AIR_ATTACK')
 	add_state('NAIR')
 	add_state('UAIR')
@@ -65,6 +66,10 @@ func get_transition(delta):
 		return states.LEDGE_CATCH
 	else:
 		parent.reset_ledge()
+		
+	if Input.is_action_just_pressed("special_%s" % id) && SPECIAL() == true:
+		parent._frame()
+		return states.NEUTRAL_SPECIAL
 
 	if Input.is_action_just_pressed("attack_%s" % id) && AIREAL() == true:
 		if Input.is_action_pressed("up_%s" % id):
@@ -318,7 +323,10 @@ func get_transition(delta):
 				if Input.is_action_pressed("left_%s" % id):
 					parent.velocity.x = -parent.MAXAIRSPEED
 				elif Input.is_action_pressed("right_%s" % id):
-					parent.velocity.x = parent.MAXAIRSPEED	
+					parent.velocity.x = parent.MAXAIRSPEED
+			if Input.is_action_just_pressed("special_%s" % id):
+				parent._frame()
+				return states.NEUTRAL_SPECIAL
 
 		states.LANDING:
 			if parent.frame == 1:
@@ -546,6 +554,41 @@ func get_transition(delta):
 					return states.AIR
 			elif parent.frame > 60 *5:
 				return states.AIR
+
+		states.NEUTRAL_SPECIAL:
+			if AIREAL() == false:
+					if parent.velocity.x > 0:
+						if parent.velocity.x > parent.DASHSPEED:
+							parent.velocity.x = parent.DASHSPEED
+						parent.velocity.x = parent.velocity.x - parent.TRACTION*10
+						parent.velocity.x = clampi(parent.velocity.x, 0, parent.velocity.x)
+					elif parent.velocity.x < 0:
+						if parent.velocity.x < -parent.DASHSPEED:
+							parent.velocity.x = -parent.DASHSPEED
+						parent.velocity.x = parent.velocity.x + parent.TRACTION*10
+						parent.velocity.x = clampi(parent.velocity.x,parent.velocity.x,0)
+
+			if AIREAL() == true:
+				AIRMOVEMENT()
+			if parent.frame <= 1:
+				if parent.projectile_cooldown == 1:
+					parent.projectile_cooldown = -1
+				if parent.projectile_cooldown == 0:
+					parent.projectile_cooldown += 1
+					parent._frame()
+					parent.NEUTRAL_SPECIAL()
+			if parent.frame < 14:#lines from here to return.states.NEUTRAL_SPECIAL and also the line if parent.frame == 14 r specific to Fox
+				if Input.is_action_just_pressed("special_%s" % id):
+					parent._frame()
+					return states.NEUTRAL_SPECIAL
+			if parent.NEUTRAL_SPECIAL() == true:
+				if AIREAL() == true:
+					return states.AIR
+				if AIREAL() == false:
+					if parent.frame == 14:
+						parent._frame()
+						return states.STAND
+
 
 		states.AIR_ATTACK:
 			AIRMOVEMENT()
@@ -800,6 +843,9 @@ func enter_state(new_state, old_state):
 			parent.states.text = str("HITSTUN")
 		states.AIR_ATTACK:
 			parent.states.text = str("AIR_ATTACK")
+		states.NEUTRAL_SPECIAL:		
+			parent.play_animation("Neutral_Special")
+			parent.states.text = str("NEUTRAL_SPECIAL")
 		states.NAIR:		
 			parent.play_animation("Nair")
 			parent.states.text = str("NAIR")
@@ -844,11 +890,15 @@ func TILT():
 		return true
 		
 func AIREAL():
-	if state_includes([states.AIR, states.DAIR, states.NAIR]):
+	if state_includes([states.AIR, states.DAIR, states.NAIR, states.FAIR, states.UAIR, states.BAIR, states.NEUTRAL_SPECIAL]):
 		if !(parent.Ground_L.is_colliding() and parent.Ground_R.is_colliding()):
 			return true
 		else:
 			return false
+			
+func SPECIAL():
+	if state_includes([states.STAND, states.WALK, states.DASH, states.RUN, states.MOONWALK, states.CROUCH]):
+		return true
 
 func AIRMOVEMENT():
 	if parent.velocity.y < parent.FALLINGSPEED:

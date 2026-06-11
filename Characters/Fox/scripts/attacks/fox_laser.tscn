@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://fi0skhvg6jf3"]
+
+[ext_resource type="Script" path="res://FoxLaser.gd" id="1_ncam8"]
+[ext_resource type="Texture2D" uid="uid://rp45n1m3dl4" path="res://Characters/Fox/sprites/nspecial_proj_strip1.png" id="2_wo8sm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kn7xq"]
+size = Vector2(62, 10)
+
+[node name="FoxLaser" type="Area2D"]
+script = ExtResource("1_ncam8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_kn7xq")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_wo8sm")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

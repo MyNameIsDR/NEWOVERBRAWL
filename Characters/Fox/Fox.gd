@@ -42,6 +42,7 @@ var catch = false
 
 #HITBOX VARS
 @export var hitbox: PackedScene
+@export var projectile: PackedScene
 var selfState
 
 #TEMPORARY VARIABLES
@@ -50,12 +51,16 @@ var hit_pause_dur = 0
 var temp_pos = Vector2(0,0)
 var temp_vel = Vector2(0,0)
 
+#ATTACKS
+var projectile_cooldown = 0
+
 #ONREADY VARS
 @onready var Ground_L = get_node("Raycasts/Ground_L")
 @onready var Ground_R = get_node("Raycasts/Ground_R")
 @onready var anim = $Sprite2D/AnimationPlayer
 @onready var Ledge_Grab_F = get_node("Raycasts/Ledge_Grab_F")
 @onready var Ledge_Grab_B = get_node("Raycasts/Ledge_Grab_B")
+@onready var gun_pos = get_node("gun_pos")
 
 #FOX'S MAIN ATTRIBUTES
 var RUNSPEED = 340 * 2
@@ -85,6 +90,24 @@ func create_hitbox(width, height, damage, angle, base_kb, kb_scaling, duration, 
 		var flip_x_points = Vector2(-points.x, points.y)
 		hitbox_instance.set_parameters(width, height, damage, -angle+180, base_kb, kb_scaling, duration, type, flip_x_points, angle_flipper, hitlag)
 	return hitbox_instance
+
+func create_projectile(dir_x, dir_y, point):
+	#Instance projectile
+	var projectile_instance = projectile.instantiate()
+	projectile_instance.player_list.append(self)
+	get_parent().add_child(projectile_instance)
+	#sets position
+	gun_pos.set_position(point)
+	#Flips the direction
+	if direction() == 1:
+		projectile_instance.dir(dir_x, dir_y)
+		projectile_instance.set_global_position(gun_pos.get_global_position())
+	else:
+		gun_pos.position.x = -gun_pos.position.x
+		projectile_instance.dir(-(dir_x), dir_y)
+		projectile_instance.set_global_position(gun_pos.get_global_position())
+	return projectile_instance
+
 
 @onready var states = $State
 
@@ -134,6 +157,13 @@ func _ready():
 
 func _physics_process(delta):
 	$Frames.text = str(frame)
+
+#SPECIAL ATTACKS
+func NEUTRAL_SPECIAL():
+	if frame == 4:
+		create_projectile(1,0,Vector2(46,3))
+	if frame == 14:
+		return true
 
 #TILT ATTACKS
 func DOWN_TILT():
