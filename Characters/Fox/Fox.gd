@@ -43,6 +43,7 @@ var catch = false
 #HITBOX VARS
 @export var hitbox: PackedScene
 @export var projectile: PackedScene
+@export var grabbox: PackedScene
 var selfState
 
 #TEMPORARY VARIABLES
@@ -53,6 +54,7 @@ var temp_vel = Vector2(0,0)
 
 #ATTACKS
 var projectile_cooldown = 0
+var grabbing = false
 
 #ONREADY VARS
 @onready var Ground_L = get_node("Raycasts/Ground_L")
@@ -90,6 +92,17 @@ func create_hitbox(width, height, damage, angle, base_kb, kb_scaling, duration, 
 		var flip_x_points = Vector2(-points.x, points.y)
 		hitbox_instance.set_parameters(width, height, damage, -angle+180, base_kb, kb_scaling, duration, type, flip_x_points, angle_flipper, hitlag)
 	return hitbox_instance
+
+func create_grabbox(width,height,damage,duration,points):
+	var grabbox_instance = grabbox.instantiate()
+	self.add_child(grabbox_instance)
+	#rotates the points
+	if direction() == 1:
+		grabbox_instance.set_parameters(width, height, damage, duration, points)
+	else:
+		var flip_x_points = Vector2(-points.x, points.y)
+		grabbox_instance.set_parameters(width,height,damage,duration,flip_x_points)
+	return grabbox_instance
 
 func create_projectile(dir_x, dir_y, point):
 	#Instance projectile
@@ -185,9 +198,21 @@ func FORWARD_TILT():
 		return true
 	
 func JAB():
+	if frame == 2:
+		create_grabbox(30, 40, 0, 3, Vector2(63,0))
+	if frame == 5:
+		if grabbing == true:
+			return false
+	if frame >= 20:
+		return true
+		
+func JAB_1():
 	if frame == 1:
-		create_hitbox(55, 22, 10, 0, 2, 70, 0, "normal", Vector2(54, 2), 0, 1)
-	if frame >= 15:
+		grabbing = false
+		create_grabbox(30, 40, 0, 13, Vector2(63, 0))
+	if frame == 12:
+		create_hitbox(40, 20, 9, 90, 8800, 0, 9, "normal", Vector2(48, 8), 0, 0	)
+	if  frame == 32:
 		return true
 
 func _hit_pause(delta):

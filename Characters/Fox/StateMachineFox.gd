@@ -24,7 +24,10 @@ func _ready():
 	add_state('LEDGE_ROLL')
 	add_state('HITFREEZE')
 	add_state('HITSTUN')
+	add_state('GRABBED')
 	add_state('GROUND_ATTACK')
+	add_state('JAB')
+	add_state('JAB_1')	
 	add_state('DOWN_TILT')
 	add_state('UP_TILT')
 	add_state('FORWARD_TILT')
@@ -35,7 +38,6 @@ func _ready():
 	add_state('BAIR')
 	add_state('FAIR')
 	add_state('DAIR')
-	add_state('JAB')	
 	call_deferred("set_state", states.STAND)
 
 func state_logic(delta):
@@ -771,19 +773,57 @@ func get_transition(delta):
 					return states.STAND	
 		
 		states.JAB:
-			if parent.frame == 0:
-				parent.JAB()
-				pass
-			if parent.frame >= 1:
+			if parent.frame <= 1:
 				if parent.velocity.x > 0:
-					parent.velocity.x += -parent.TRACTION*3
-					parent.velocity.x = clampf(parent.velocity.x, 0, parent.velocity.x)
+					if parent.velocity.x > parent.DASHSPEED:
+						parent.velocity.x = parent.DASHSPEED
+					parent.velocity.x = parent.velocity.x - parent.TRACTION*20
+					parent.velocity.x = clamp(parent.velocity.x,0,parent.velocity.x)
 				elif parent.velocity.x < 0:
-					parent.velocity.x += parent.TRACTION*3
-					parent.velocity.x = clampf(parent.velocity.x, parent.velocity.x, 0)
+					if parent.velocity.x < -parent.DASHSPEED:
+						parent.velocity.x = -parent.DASHSPEED
+					parent.velocity.x = parent.velocity.x + parent.TRACTION*20
+					parent.velocity.x = clamp(parent.velocity.x,parent.velocity.x,0)
+				parent.JAB()
 			if parent.JAB() == true:
+				if Input.is_action_pressed("down_%s" % id):
+					parent._frame()
+					return states.CROUCH
+				else:
+					parent._frame()
+					return states.STAND
+			if parent.JAB() == false:
 				parent._frame()
-				return states.STAND
+				return states.JAB_1
+		
+		states.JAB_1:
+			if parent.frame <= 1:
+				if parent.velocity.x > 0:
+					if parent.velocity.x > parent.DASHSPEED:
+						parent.velocity.x = parent.DASHSPEED
+					parent.velocity.x = parent.velocity.x - parent.TRACTION*20
+					parent.velocity.x = clamp(parent.velocity.x,0,parent.velocity.x)
+				elif parent.velocity.x < 0:
+					if parent.velocity.x < -parent.DASHSPEED:
+						parent.velocity.x = -parent.DASHSPEED
+					parent.velocity.x = parent.velocity.x + parent.TRACTION*20
+					parent.velocity.x = clamp(parent.velocity.x,parent.velocity.x,0)
+				parent.JAB_1()
+			if parent.JAB_1() == true:
+				if Input.is_action_pressed("down_%s" % id):
+					parent._frame()
+					return states.CROUCH
+				else:
+					parent._frame()
+					return states.STAND
+
+
+		
+		states.GRABBED:
+			for body in get_tree().get_nodes_in_group("Character"):
+				if body.name == temp_body:
+					if body.get_node("StateMachine").state != temp_state:
+						return states.STAND
 
 func enter_state(new_state, old_state):
 	match new_state:
@@ -838,6 +878,9 @@ func enter_state(new_state, old_state):
 		states.HITFREEZE:
 			parent.play_animation("Hitstun")
 			parent.states.text = str("HITFREEZE")
+		states.GRABBED:
+			parent.play_animation("Hitstun")
+			parent.states.text = str("GRABBED")
 		states.HITSTUN:
 			parent.play_animation("Hitstun")
 			parent.states.text = str("HITSTUN")
@@ -875,6 +918,9 @@ func enter_state(new_state, old_state):
 		states.JAB:
 			parent.play_animation("Jab")
 			parent.states.text = str("JAB")
+		states.JAB_1:
+			parent.play_animation("Jab_1")
+			parent.states.text = str("JAB_1")
 		
 func exit_state(old_state, new_state):
 	pass
@@ -1024,6 +1070,12 @@ func Ledge():
 				collider.is_grabbed = true
 				parent.last_ledge = collider
 				return true
+
+var temp_body
+var temp_state
+func grabbed(body,state):
+	temp_body = body
+	temp_state = state
 
 var kbx
 var kby
