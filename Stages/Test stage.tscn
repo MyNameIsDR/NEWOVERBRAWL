@@ -1,0 +1,135 @@
+[gd_scene load_steps=8 format=3 uid="uid://cgnlxelg17qtc"]
+
+[ext_resource type="Texture2D" uid="uid://bp1l454owp5y1" path="res://Stages/Brawlerville/1.png" id="1"]
+[ext_resource type="PackedScene" uid="uid://dd52dupmwbeu2" path="res://Characters/Fox/Fox.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://cyej5jm6hd47e" path="res://Stages/Stage Assets/Ledge.tscn" id="3"]
+[ext_resource type="Texture2D" uid="uid://jhq5qch50ugj" path="res://Stages/Brawlerville/SSBM_Final_Destination_NavBox.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://dve5cpaxghleg" path="res://Stages/Brawlerville/pixel-art-seamless-background-with-blue-sky-cloud-ground_887552-15752.png" id="5"]
+[ext_resource type="Script" path="res://Stages/StageCamera.gd" id="6"]
+
+[sub_resource type="RectangleShape2D" id="1"]
+size = Vector2(65.332, 1.168)
+
+[node name="Test Stage" type="Node2D"]
+position = Vector2(876, 561)
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+position = Vector2(955, 581)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+position = Vector2(955, 581)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
+position = Vector2(955, 581)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3"]
+
+[node name="ParallaxLayer4" type="ParallaxLayer" parent="ParallaxBackground"]
+position = Vector2(955, 581)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer4"]
+
+[node name="Main BG" type="ParallaxLayer" parent="ParallaxBackground"]
+position = Vector2(1084.81, 535)
+scale = Vector2(0.862, 0.862)
+motion_scale = Vector2(-0.5, 0.5)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Main BG"]
+position = Vector2(-128, -8)
+scale = Vector2(2, 2)
+texture = ExtResource("5")
+
+[node name="1" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(89, 47)
+scale = Vector2(2, 2)
+texture = ExtResource("1")
+
+[node name="Platform" type="StaticBody2D" parent="."]
+visible = false
+position = Vector2(-871, -493)
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform"]
+position = Vector2(954, 765)
+scale = Vector2(12.2268, 23.5182)
+shape = SubResource("1")
+
+[node name="Label" type="Label" parent="Platform"]
+offset_left = 1091.0
+offset_top = 762.0
+offset_right = 1145.0
+offset_bottom = 793.0
+text = "Platform
+"
+
+[node name="Wall" type="StaticBody2D" parent="."]
+position = Vector2(-871, -493)
+collision_layer = 2
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Wall"]
+position = Vector2(241, 124)
+scale = Vector2(1.00152, 0.996037)
+build_mode = 1
+polygon = PackedVector2Array(1108, 662, 966, 736, 462, 736, 318, 660)
+
+[node name="Label2" type="Label" parent="Wall"]
+offset_left = 1051.0
+offset_top = 826.0
+offset_right = 1105.0
+offset_bottom = 857.0
+text = "Wall
+"
+metadata/_edit_use_anchors_ = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(80.0001, -35.9999)
+scale = Vector2(25, 25)
+limit_left = -164
+limit_top = -98
+limit_right = 2093
+limit_bottom = 1152
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+drag_left_margin = 0.0
+drag_right_margin = 0.0
+editor_draw_limits = true
+editor_draw_drag_margin = true
+script = ExtResource("6")
+
+[node name="FOX" parent="." instance=ExtResource("2")]
+position = Vector2(-177, 188)
+id = 1
+
+[node name="FOX2" parent="." instance=ExtResource("2")]
+position = Vector2(87, 180)
+id = 2
+
+[node name="Ledge" parent="." instance=ExtResource("3")]
+position = Vector2(319, 13)
+
+[node name="Ledge2" parent="." instance=ExtResource("3")]
+visible = false
+position = Vector2(-365, 289)
+scale = Vector2(1.47494, -1.03939)
+
+[node name="Ledge3" parent="." instance=ExtResource("3")]
+visible = false
+position = Vector2(543, 284)
+scale = Vector2(1.65275, 1.30532)
+ledge_Side = "Right"
+
+[node name="Main Stage 1" type="Sprite2D" parent="."]
+z_index = -2
+position = Vector2(84.0001, 304)
+scale = Vector2(1.68, 1)
+texture = ExtResource("4")
+
+[node name="Main Stage 2" type="Sprite2D" parent="."]
+position = Vector2(-871, -493)

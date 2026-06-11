@@ -1,0 +1,113 @@
+[gd_scene load_steps=12 format=3 uid="uid://dd52dupmwbeu2"]
+
+[ext_resource type="SpriteFrames" uid="uid://0g5ic1f4ncm3" path="res://Characters/Fox/FoxSprites.tres" id="4_nhbsj"]
+[ext_resource type="AnimationLibrary" uid="uid://b4x277cgkq0wt" path="res://Characters/Fox/FoxAnimationLibrary.res" id="5_j2er4"]
+[ext_resource type="Script" path="res://Characters/Fox/StateMachineFox.gd" id="33"]
+[ext_resource type="Script" path="res://Characters/Fox/Fox.gd" id="34"]
+[ext_resource type="PackedScene" uid="uid://dmua8ybkhpb4d" path="res://Hitbox/HITBOX.tscn" id="35"]
+
+[sub_resource type="SystemFont" id="SystemFont_sq7v7"]
+font_names = PackedStringArray("Comic Sans MS")
+subpixel_positioning = 0
+multichannel_signed_distance_field = true
+
+[sub_resource type="FontVariation" id="FontVariation_w4kbp"]
+base_font = SubResource("SystemFont_sq7v7")
+
+[sub_resource type="SystemFont" id="SystemFont_fr6av"]
+font_names = PackedStringArray("Comic Sans MS")
+subpixel_positioning = 0
+multichannel_signed_distance_field = true
+
+[sub_resource type="FontVariation" id="FontVariation_s60ym"]
+base_font = SubResource("SystemFont_fr6av")
+
+[sub_resource type="RectangleShape2D" id="185"]
+size = Vector2(21.822, 44.96)
+
+[sub_resource type="RectangleShape2D" id="186"]
+size = Vector2(47.9506, 22)
+
+[node name="FOX" type="CharacterBody2D"]
+collision_mask = 6
+slide_on_ceiling = false
+platform_on_leave = 2
+platform_floor_layers = 4278190086
+script = ExtResource("34")
+hitbox = ExtResource("35")
+
+[node name="Frames" type="Label" parent="."]
+offset_left = -14.0
+offset_top = -90.0
+offset_right = 30.0
+offset_bottom = -64.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = SubResource("FontVariation_w4kbp")
+text = "45"
+
+[node name="State" type="Label" parent="."]
+offset_left = -21.0
+offset_top = -69.0
+offset_right = 23.0
+offset_bottom = -43.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = SubResource("FontVariation_s60ym")
+text = "Test"
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("33")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(1.5, 1.5)
+sprite_frames = ExtResource("4_nhbsj")
+animation = &"idle"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
+root_node = NodePath("../..")
+libraries = {
+"": ExtResource("5_j2er4")
+}
+
+[node name="CollisionBox" type="CollisionShape2D" parent="."]
+position = Vector2(-1.3113e-06, -1.90735e-06)
+scale = Vector2(2.74947, 2.13526)
+shape = SubResource("185")
+
+[node name="Raycasts" type="Node2D" parent="."]
+
+[node name="Ground_L" type="RayCast2D" parent="Raycasts"]
+position = Vector2(-20, 42)
+target_position = Vector2(0, 10)
+collision_mask = 6
+hit_from_inside = true
+
+[node name="Ground_R" type="RayCast2D" parent="Raycasts"]
+position = Vector2(20, 42)
+target_position = Vector2(0, 10)
+collision_mask = 6
+hit_from_inside = true
+
+[node name="Ledge_Grab_F" type="RayCast2D" parent="Raycasts"]
+position = Vector2(22, -15)
+scale = Vector2(3, 3)
+target_position = Vector2(20, 0)
+collision_mask = 8
+hit_from_inside = true
+collide_with_areas = true
+
+[node name="Ledge_Grab_B" type="RayCast2D" parent="Raycasts"]
+position = Vector2(0, -38)
+scale = Vector2(3, 3)
+target_position = Vector2(-11, 0)
+collision_mask = 8
+hit_from_inside = true
+collide_with_areas = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-29, -18)
+scale = Vector2(0.875902, 1)
+shape = SubResource("186")
+disabled = true
