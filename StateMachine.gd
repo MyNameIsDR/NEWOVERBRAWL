@@ -1,6 +1,8 @@
 extends Node
 class_name StateMachine
 
+#this one has dIIhh....
+
 var state = null : set = set_state
 var previous_state = null
 var states = {}
