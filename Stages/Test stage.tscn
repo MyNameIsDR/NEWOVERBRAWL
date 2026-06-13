@@ -71,6 +71,7 @@ text = "Platform
 "
 
 [node name="Wall" type="StaticBody2D" parent="."]
+visible = false
 position = Vector2(-871, -493)
 collision_layer = 2
 
