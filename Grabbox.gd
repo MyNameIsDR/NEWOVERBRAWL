@@ -12,6 +12,8 @@ var player_list = []
 var points = []
 var point
 
+
+#da
 func set_parameters(w,h,d,dur,p,parent=get_parent()):
 	self.position = Vector2(0,0)
 	player_list.append(parent)
