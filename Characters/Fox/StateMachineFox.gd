@@ -842,7 +842,10 @@ func get_transition(delta):
 				if parent.velocity.x > 0:
 					if parent.velocity.x > parent.DASHSPEED:
 						parent.velocity.x = parent.DASHSPEED
-					parent.velocity.x = parent.velocity.x - parent.TRACTION*20
+					print("BEFORE:", parent.velocity.x)						
+					#parent.velocity.x = parent.velocity.x - parent.TRACTION*20
+					parent.velocity.x = move_toward(parent.velocity.x, 0, parent.TRACTION * 20)
+					print("AFTER:", parent.velocity.x)					
 					parent.velocity.x = clamp(parent.velocity.x,0,parent.velocity.x)
 				elif parent.velocity.x < 0:
 					if parent.velocity.x < -parent.DASHSPEED:
@@ -866,7 +869,9 @@ func get_transition(delta):
 				if parent.velocity.x > 0:
 					if parent.velocity.x > parent.DASHSPEED:
 						parent.velocity.x = parent.DASHSPEED
+					print("BEFORE:", parent.velocity.x)
 					parent.velocity.x = parent.velocity.x - parent.TRACTION*20
+					print("AFTER:", parent.velocity.x)
 					parent.velocity.x = clamp(parent.velocity.x,0,parent.velocity.x)
 				elif parent.velocity.x < 0:
 					if parent.velocity.x < -parent.DASHSPEED:
