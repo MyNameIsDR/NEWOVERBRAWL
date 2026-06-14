@@ -39,6 +39,7 @@ script = ExtResource("34")
 hitbox = ExtResource("35")
 projectile = ExtResource("3_2afu7")
 grabbox = ExtResource("4_vk7dr")
+hitbox_scene = ExtResource("35")
 
 [node name="Frames" type="Label" parent="."]
 offset_left = -14.0

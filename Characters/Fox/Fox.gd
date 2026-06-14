@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 #GLOBAL VARS
 var frame = 0
+@export var vibration = 0
 @export var id: int
 
 #ATTRIBUTES
@@ -45,6 +46,7 @@ var catch = false
 @export var hitbox: PackedScene
 @export var projectile: PackedScene
 @export var grabbox: PackedScene
+@export var hitbox_scene: PackedScene
 var selfState
 
 #TEMPORARY VARIABLES
@@ -67,6 +69,8 @@ var grabbing = false
 @onready var hurtbox = %Hurtbox
 @onready var parrybox = %Parrybox
 
+var jab_hitbox = null
+var jab_active = false
 
 #FOX'S MAIN ATTRIBUTES
 var RUNSPEED = 340 * 2
@@ -181,6 +185,7 @@ func _physics_process(delta):
 
 #SPECIAL ATTACKS
 func NEUTRAL_SPECIAL():
+	var vibration = 2
 	if frame == 4:
 		create_projectile(1,0,Vector2(46,3))
 	if frame == 14:
@@ -188,33 +193,44 @@ func NEUTRAL_SPECIAL():
 
 #TILT ATTACKS
 func DOWN_TILT():
+	var vibration = 1
 	if frame == 5:
 		create_hitbox(40, 20, 8, 90, 3, 120, 3, "normal", Vector2(60,34), 0, 1)
 	if frame >= 10:
 		return true
 
 func UP_TILT():
+	var vibration = 1
 	if frame == 5:
 		create_hitbox(48, 68, 8, 90, 50, 100, 3, "normal", Vector2(-22,-15), 0, 1)
 	if frame >= 12:
 		return true
 
 func FORWARD_TILT():
+	var vibration = 1
 	if frame == 3:
 		create_hitbox(52, 20, 6, 60, 40, 150, 3, "normal", Vector2(22, 8), 0, 1)
 	if frame >= 8:
 		return true
-	
+
 func JAB():
+	var vibration = 1
+	#if frame == 1 and !hitbox_created:
+	#	var hitbox = hitbox_scene.instantiate()
+	#	hitbox.attack_type = "jab"
+	#	add_child(hitbox)
+	#	hitbox_created = true
 	if frame == 2:
 		create_grabbox(30, 40, 0, 3, Vector2(63,0))
 	if frame == 5:
 		if grabbing == true:
 			return false
 	if frame >= 20:
+	#	hitbox_created = false
 		return true
 		
 func JAB_1():
+	var vibration = 3	
 	if frame == 1:
 		grabbing = false
 		create_grabbox(30, 40, 0, 13, Vector2(63, 0))
@@ -236,6 +252,7 @@ func _hit_pause(delta):
 			hit_pause = 0
 
 func NAIR():
+	var vibration = 1
 	if frame == 1:
 		create_hitbox(56,56,12,361,0,100,3,'normal',Vector2(0,0),0,.4)
 	if frame > 1:
@@ -251,6 +268,7 @@ func NAIR():
 				return true
 
 func UAIR():
+	var vibration = 1
 	if frame == 2:
 		create_hitbox(32,36,5,90,130,0,2,'normal',Vector2(0,-45),0,.1)
 	if frame == 6:
@@ -259,6 +277,7 @@ func UAIR():
 		return true
 
 func BAIR():
+	var vibration = 1
 	if frame == 2:
 		create_hitbox(52,55,15,45,1,100,5,'normal',Vector2(-47,7),6,1)
 	if frame > 1:
@@ -274,6 +293,7 @@ func BAIR():
 				return true
 
 func FAIR():
+	vibration = 1
 	if frame == 2:
 		create_hitbox(35,47,3,76,10,150,3,'normal',Vector2(60,-7),0,1)
 	if frame == 11:
@@ -282,6 +302,7 @@ func FAIR():
 		return true
 
 func DAIR():
+	var vibration = 1
 	if frame == 2:
 		create_hitbox(36,58,2,290,140,0,2,'normal',Vector2(28,17),0,1)
 	if frame == 3:

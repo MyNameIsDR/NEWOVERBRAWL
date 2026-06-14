@@ -18,6 +18,8 @@ var framez = 0.0
 var player_list = []
 var parry = false
 
+@export var vibration = 0
+
 func set_parameters(w,h,d,a,b_kb,kb_s,dur,t,p,af,hit,parent=get_parent()):
 	self.position = Vector2(0,0)
 	player_list.append(parent)
@@ -38,11 +40,8 @@ func set_parameters(w,h,d,a,b_kb,kb_s,dur,t,p,af,hit,parent=get_parent()):
 	set_physics_process(true)
 	
 func Hitbox_Collide(body):
-	print("Hit:", body.name)
-	print("Hitbox owner:", get_parent().name)
-	print("Player list:", player_list)
-	print("Body:", body)
 	#body = body.get_parent()
+	print("attack_type:", vibration)
 	if !(body.get_parent() in player_list): # CHANGED:Hitboxes collide with Hurtboxes, so check the owning character
 		if body.name == "Parrybox":
 			set_collision_mask_value(1, false)
@@ -51,16 +50,24 @@ func Hitbox_Collide(body):
 				var selfstate = get_parent().get_node("StateMachine")
 				selfstate.state = selfstate.states.STUNNED
 		else:
-			print("Before parent:", body.name)
 			body = body.get_parent()
-			print("After parent:", body.name)
-			if body == get_parent():
-				print("SELF HIT DETECTED")
 			player_list.append(body)
 			var charstate
 			charstate = body.get_node("StateMachine")
 			weight = body.weight
 			body.percentage += damage
+			if vibration == 0: #jab
+				print("RUMBLE TRIGGERED")
+				Input.start_joy_vibration(0, 0.15, 0.3, 0.06)
+			elif vibration == 1: #tilt
+				print("RUMBLE TRIGGERED")
+				Input.start_joy_vibration(0, 0.3, 0.6, 0.10)
+			elif vibration == 2: #projectile
+				print("RUMBLE TRIGGERED")
+				Input.start_joy_vibration(0, 0.5, 1.0, 0.14)
+			elif vibration == 3: #smash
+				print("RUMBLE TRIGGERED")
+				Input.start_joy_vibration(0, 1, 1.0, 0.4)
 			knockbackVal = knockback(body.percentage, damage, weight, kb_scaling, base_kb, 1)
 			s_angle(body)
 			charstate.state = charstate.states.HITFREEZE
