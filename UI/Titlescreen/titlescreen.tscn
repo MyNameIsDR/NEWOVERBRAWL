@@ -1,0 +1,122 @@
+[gd_scene load_steps=9 format=3 uid="uid://cbfb0bb8r67ih"]
+
+[ext_resource type="Script" path="res://UI/Titlescreen/Scripts/Brawl Btn.gd" id="1_nsjhr"]
+
+[sub_resource type="SystemFont" id="SystemFont_u3ms6"]
+font_names = PackedStringArray("Sylfaen")
+
+[sub_resource type="FontVariation" id="FontVariation_imecx"]
+base_font = SubResource("SystemFont_u3ms6")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ymk8y"]
+size = Vector2(600.5, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r7ub7"]
+size = Vector2(601, 102)
+
+[sub_resource type="SystemFont" id="SystemFont_s5hxy"]
+font_weight = 425
+multichannel_signed_distance_field = true
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dkavg"]
+size = Vector2(600, 101.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_peflg"]
+
+[node name="Titlescreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.00784314, 0.443137, 0.878431, 1)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 53.0
+offset_top = 53.0
+offset_right = 1540.0
+offset_bottom = 338.0
+theme_override_fonts/font = SubResource("FontVariation_imecx")
+theme_override_font_sizes/font_size = 170
+text = "Newground::Rumble"
+
+[node name="HBox Btns Container" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 1176.0
+offset_top = 284.0
+offset_right = 1800.0
+offset_bottom = 729.0
+alignment = 1
+
+[node name="VBox Btns Container" type="VBoxContainer" parent="HBox Btns Container"]
+layout_mode = 2
+theme_override_constants/separation = 34
+alignment = 1
+
+[node name="Brawl Btn" type="Button" parent="HBox Btns Container/VBox Btns Container"]
+custom_minimum_size = Vector2(600, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 51
+text = "BRAWL"
+script = ExtResource("1_nsjhr")
+
+[node name="Area2D" type="Area2D" parent="HBox Btns Container/VBox Btns Container/Brawl Btn"]
+collision_layer = 65536
+collision_mask = 524288
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HBox Btns Container/VBox Btns Container/Brawl Btn/Area2D"]
+position = Vector2(299.75, 50)
+shape = SubResource("RectangleShape2D_ymk8y")
+
+[node name="Settings Btn" type="Button" parent="HBox Btns Container/VBox Btns Container"]
+custom_minimum_size = Vector2(600, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 51
+text = "SETTINGS"
+
+[node name="Area2D" type="Area2D" parent="HBox Btns Container/VBox Btns Container/Settings Btn"]
+collision_layer = 65536
+collision_mask = 524288
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HBox Btns Container/VBox Btns Container/Settings Btn/Area2D"]
+position = Vector2(300.5, 50)
+shape = SubResource("RectangleShape2D_r7ub7")
+
+[node name="Leave Btn" type="Button" parent="HBox Btns Container/VBox Btns Container"]
+custom_minimum_size = Vector2(600, 100)
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_s5hxy")
+theme_override_font_sizes/font_size = 51
+text = "LEAVE"
+
+[node name="Area2D" type="Area2D" parent="HBox Btns Container/VBox Btns Container/Leave Btn"]
+collision_layer = 65536
+collision_mask = 524288
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HBox Btns Container/VBox Btns Container/Leave Btn/Area2D"]
+position = Vector2(300, 50.25)
+shape = SubResource("RectangleShape2D_dkavg")
+
+[node name="Pointer" type="Area2D" parent="."]
+position = Vector2(1290, 375)
+collision_layer = 524288
+collision_mask = 65536
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pointer"]
+shape = SubResource("RectangleShape2D_peflg")
+
+[connection signal="focus_entered" from="HBox Btns Container/VBox Btns Container/Brawl Btn" to="HBox Btns Container/VBox Btns Container/Brawl Btn" method="_on_SinglePlayerButton_focus_entered"]
+[connection signal="focus_exited" from="HBox Btns Container/VBox Btns Container/Brawl Btn" to="HBox Btns Container/VBox Btns Container/Brawl Btn" method="_on_SinglePlayerButton_focus_exited"]
+[connection signal="pressed" from="HBox Btns Container/VBox Btns Container/Brawl Btn" to="HBox Btns Container/VBox Btns Container/Brawl Btn" method="_on_pressed"]
+[connection signal="area_entered" from="HBox Btns Container/VBox Btns Container/Brawl Btn/Area2D" to="HBox Btns Container/VBox Btns Container/Brawl Btn" method="_on_Area2D_area_entered"]
+[connection signal="area_exited" from="HBox Btns Container/VBox Btns Container/Brawl Btn/Area2D" to="HBox Btns Container/VBox Btns Container/Brawl Btn" method="_on_Area2D_area_exited"]
