@@ -13,6 +13,7 @@ var freezeframes = 0
 #BUFFERS
 var l_cancel = 0
 var cooldown = 0
+var shield_buffer = 0
 
 #KNOCKBACK
 var hdecay
@@ -63,6 +64,9 @@ var grabbing = false
 @onready var Ledge_Grab_F = get_node("Raycasts/Ledge_Grab_F")
 @onready var Ledge_Grab_B = get_node("Raycasts/Ledge_Grab_B")
 @onready var gun_pos = get_node("gun_pos")
+@onready var hurtbox = %Hurtbox
+@onready var parrybox = %Parrybox
+
 
 #FOX'S MAIN ATTRIBUTES
 var RUNSPEED = 340 * 2
@@ -130,6 +134,10 @@ func updateframes(delta):
 	clampi(l_cancel, 0, l_cancel)
 	cooldown -= floor(delta * 60)
 	cooldown = clampi(cooldown, 0, cooldown)
+	if not Input.is_action_pressed("shield_%s" % id):
+		shield_buffer = 0
+	elif Input.is_action_pressed("shield_%s" % id):
+		shield_buffer += floor(delta * 60)
 	if freezeframes > 0:
 		freezeframes -= floor(delta * 60)	
 	freezeframes = clampi(freezeframes, 0, freezeframes)

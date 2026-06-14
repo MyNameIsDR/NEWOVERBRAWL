@@ -13,10 +13,7 @@ func _ready():
 	add_state('WALK')
 	add_state('CROUCH')
 	add_state('AIR')
-	add_state('PARRY')
 	add_state('LANDING')
-	add_state('ROLL_RIGHT')
-	add_state('ROLL_LEFT')
 	add_state('LEDGE_CATCH')
 	add_state('LEDGE_HOLD')
 	add_state('LEDGE_CLIMB')
@@ -24,6 +21,9 @@ func _ready():
 	add_state('LEDGE_ROLL')
 	add_state('HITFREEZE')
 	add_state('HITSTUN')
+	add_state("PARRY")
+	add_state("ROLL_RIGHT")
+	add_state("ROLL_LEFT")
 	add_state('GRABBED')
 	add_state('GROUND_ATTACK')
 	add_state('JAB')
@@ -102,6 +102,17 @@ func get_transition(delta):
 		parent.l_cancel = 11
 		parent.cooldown = 40
 		print("L cancel is true")
+		
+	if Input.is_action_pressed("shield_%s" % id) && can_roll() == true && parent.cooldown == 0 && parent.shield_buffer == 2:
+		if Input.is_action_pressed("right_%s" % id):
+			parent._frame()
+			return states.ROLL_RIGHT
+		elif Input.is_action_pressed("left_%s" % id):
+			parent._frame()
+			return states.ROLL_LEFT
+		else:
+			parent._frame()
+			return states.PARRY
 
 	match state:
 		states.STAND:
@@ -557,6 +568,60 @@ func get_transition(delta):
 			elif parent.frame > 60 *5:
 				return states.AIR
 
+		states.PARRY:
+			if parent.velocity.x > 0:
+				parent.velocity.x += -parent.TRACTION*10
+				parent.velocity.x = clampi(parent.velocity.x, 0, parent.velocity.x)
+			elif parent.velocity.x < 0:
+				parent.velocity.x += parent.TRACTION*10
+				parent.velocity.x = clampi(parent.velocity.x, parent.velocity.x, 0)
+			if parent.frame >= 3 && parent.frame <= 10:
+				parent.hurtbox.disabled = true
+				parent.parrybox.disabled = false
+			if parent.frame >= 11:
+				parent.hurtbox.disabled = false
+				parent.parrybox.disabled = true
+			if parent.frame == 30:
+				parent._frame()
+				return states.STAND
+		
+		states.ROLL_RIGHT:
+			parent.turn(true)
+			if parent.frame == 1:
+				parent.velocity.x = 0
+			if parent.frame == 4:
+				parent.velocity.x = parent.ROLL_DISTANCE
+				parent.hurtbox.disabled = true
+			if parent.frame == 20:
+				parent.hurtbox.disabled = false
+			if parent.frame > 19:
+				parent.velocity.x = parent.velocity.x - parent.TRACTION*5
+				parent.velocity.x = clampi(parent.velocity.x, 0, parent.velocity.x)
+				if parent.velocity.x == 0:
+					parent.cooldown = 20
+					parent.lag_frames = 10
+					parent._frame()
+					return states.LANDING		
+		
+		states.ROLL_LEFT:
+			parent.turn(false)
+			if parent.frame == 1:
+				parent.velocity.x = 0
+			if parent.frame == 4:
+				parent.velocity.x = -parent.ROLL_DISTANCE
+				parent.hurtbox.disabled = true
+			if parent.frame == 20:
+				parent.hurtbox.disabled = false
+			if parent.frame > 19:
+				print(parent.frame)
+				parent.velocity.x = parent.velocity.x + parent.TRACTION*5
+				parent.velocity.x = clampi(parent.velocity.x, parent.velocity.x, 0)
+				if parent.velocity.x == 0:
+					parent.cooldown = 20
+					parent.lag_frames = 10
+					parent._frame()
+					return states.LANDING	
+		
 		states.NEUTRAL_SPECIAL:
 			if AIREAL() == false:
 					if parent.velocity.x > 0:
@@ -884,6 +949,15 @@ func enter_state(new_state, old_state):
 		states.HITSTUN:
 			parent.play_animation("Hitstun")
 			parent.states.text = str("HITSTUN")
+		states.PARRY:
+			parent.play_animation("Parry")
+			parent.states.text = str("PARRY")
+		states.ROLL_RIGHT:
+			parent.play_animation("Tech_Ground")
+			parent.states.text = str("ROLL_RIGHT")
+		states.ROLL_LEFT:
+			parent.play_animation("Tech_Ground")
+			parent.states.text = str("ROLL_LEFT")
 		states.AIR_ATTACK:
 			parent.states.text = str("AIR_ATTACK")
 		states.NEUTRAL_SPECIAL:		
@@ -1070,6 +1144,10 @@ func Ledge():
 				collider.is_grabbed = true
 				parent.last_ledge = collider
 				return true
+
+func can_roll():
+	if state_includes([states.STAND, states.MOONWALK, states.RUN, states.WALK, states.CROUCH, states.DASH]):
+		return true
 
 var temp_body
 var temp_state

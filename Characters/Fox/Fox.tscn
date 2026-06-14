@@ -30,7 +30,7 @@ size = Vector2(21.822, 44.96)
 [sub_resource type="RectangleShape2D" id="186"]
 size = Vector2(54.8007, 22)
 
-[node name="FOX" type="CharacterBody2D"]
+[node name="FOX" type="CharacterBody2D" groups=["Character"]]
 collision_mask = 6
 slide_on_ceiling = false
 platform_on_leave = 2
@@ -118,3 +118,24 @@ disabled = true
 
 [node name="gun_pos" type="Marker2D" parent="."]
 position = Vector2(46, 3)
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_mask = 6
+
+[node name="Hurtbox" type="CollisionShape2D" parent="Hurtbox"]
+unique_name_in_owner = true
+position = Vector2(-1.3113e-06, -1.90735e-06)
+scale = Vector2(2.74947, 2.13526)
+shape = SubResource("185")
+debug_color = Color(0.909804, 0.541176, 0, 0.419608)
+
+[node name="Parrybox" type="Area2D" parent="."]
+collision_mask = 6
+
+[node name="Parrybox" type="CollisionShape2D" parent="Parrybox"]
+unique_name_in_owner = true
+position = Vector2(-1.3113e-06, -1.90735e-06)
+scale = Vector2(2.74947, 2.13526)
+shape = SubResource("185")
+disabled = true
+debug_color = Color(1, 0.25098, 0.952941, 0.419608)
