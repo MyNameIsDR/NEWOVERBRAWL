@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://cgnlxelg17qtc"]
+[gd_scene load_steps=10 format=3 uid="uid://cgnlxelg17qtc"]
 
 [ext_resource type="Texture2D" uid="uid://bp1l454owp5y1" path="res://Stages/Brawlerville/1.png" id="1"]
+[ext_resource type="Texture2D" uid="uid://c0nsv2fkqdqsm" path="res://EvansRemainsSwitchScreenshots(2).png" id="1_lea4j"]
 [ext_resource type="PackedScene" uid="uid://dd52dupmwbeu2" path="res://Characters/Fox/Fox.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://cyej5jm6hd47e" path="res://Stages/Stage Assets/Ledge.tscn" id="3"]
 [ext_resource type="Texture2D" uid="uid://jhq5qch50ugj" path="res://Stages/Brawlerville/SSBM_Final_Destination_NavBox.png" id="4"]
@@ -31,10 +32,14 @@ position = Vector2(955, 581)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3"]
 
-[node name="ParallaxLayer4" type="ParallaxLayer" parent="ParallaxBackground"]
+[node name="Evan\'z Remains" type="ParallaxLayer" parent="ParallaxBackground"]
+visible = false
 position = Vector2(955, 581)
 
-[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer4"]
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/Evan\'z Remains"]
+position = Vector2(0, -47.783)
+scale = Vector2(2.259, 2.259)
+texture = ExtResource("1_lea4j")
 
 [node name="Main BG" type="ParallaxLayer" parent="ParallaxBackground"]
 position = Vector2(1084.81, 535)
