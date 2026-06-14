@@ -25,6 +25,7 @@ func _ready():
 	add_state("ROLL_RIGHT")
 	add_state("ROLL_LEFT")
 	add_state('GRABBED')
+	add_state('STUNNED')	
 	add_state('GROUND_ATTACK')
 	add_state('JAB')
 	add_state('JAB_1')	
@@ -613,7 +614,6 @@ func get_transition(delta):
 			if parent.frame == 20:
 				parent.hurtbox.disabled = false
 			if parent.frame > 19:
-				print(parent.frame)
 				parent.velocity.x = parent.velocity.x + parent.TRACTION*5
 				parent.velocity.x = clampi(parent.velocity.x, parent.velocity.x, 0)
 				if parent.velocity.x == 0:
@@ -889,6 +889,25 @@ func get_transition(delta):
 				if body.name == temp_body:
 					if body.get_node("StateMachine").state != temp_state:
 						return states.STAND
+		
+		states.STUNNED:
+			if parent.frame >= 60*5:#possibly make 5 a var
+				parent._frame()
+				return states.STAND
+			else:
+				if parent.is_on_floor() == true:
+					if parent.velocity.x > 0:
+						if parent.velocity.x > parent.DASHSPEED:
+							parent.velocity.x = parent.DASHSPEED
+						parent.velocity.x = parent.velocity.x - parent.TRACTION
+						parent.velocity.x = clampi(parent.velocity.x, 0, parent.velocity.x)
+					elif parent.velocity.x < 0:
+						if parent.velocity.x < -parent.DASHSPEED:
+							parent.velocity.x = -parent.DASHSPEED
+						parent.velocity.x = parent.velocity.x + parent.TRACTION
+						parent.velocity.x = clampi(parent.velocity.x, parent.velocity.x, 0)
+				if parent.is_on_floor() == false:
+					AIRMOVEMENT()
 
 func enter_state(new_state, old_state):
 	match new_state:
@@ -946,6 +965,9 @@ func enter_state(new_state, old_state):
 		states.GRABBED:
 			parent.play_animation("Hitstun")
 			parent.states.text = str("GRABBED")
+		states.STUNNED:
+			parent.play_animation("Hitstun")
+			parent.states.text = str("STUNNED")
 		states.HITSTUN:
 			parent.play_animation("Hitstun")
 			parent.states.text = str("HITSTUN")

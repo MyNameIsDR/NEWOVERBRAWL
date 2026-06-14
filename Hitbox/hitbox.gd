@@ -16,6 +16,7 @@ extends Area2D
 var knockbackVal
 var framez = 0.0
 var player_list = []
+var parry = false
 
 func set_parameters(w,h,d,a,b_kb,kb_s,dur,t,p,af,hit,parent=get_parent()):
 	self.position = Vector2(0,0)
@@ -33,33 +34,47 @@ func set_parameters(w,h,d,a,b_kb,kb_s,dur,t,p,af,hit,parent=get_parent()):
 	hitlag_modifier = hit
 	angle_flipper = af
 	update_extents()
-	connect("body_entered",Callable(self,"Hitbox_Collide"))
+	connect("area_entered",Callable(self,"Hitbox_Collide"))
 	set_physics_process(true)
 	
 func Hitbox_Collide(body):
+	print("Hit:", body.name)
+	print("Hitbox owner:", get_parent().name)
+	print("Player list:", player_list)
+	print("Body:", body)
 	#body = body.get_parent()
-	if !(body in player_list):
-		print("Attacker:", get_parent().global_position)
-		print("Victim:", body.global_position)
-		player_list.append(body)
-		var charstate
-		charstate = body.get_node("StateMachine")
-		weight = body.weight
-		body.percentage += damage
-		knockbackVal = knockback(body.percentage, damage, weight, kb_scaling, base_kb, 1)
-		s_angle(body)
-		charstate.state = charstate.states.HITFREEZE
-		charstate.hitfreeze(hitlag(damage,hitlag_modifier), angle_flipperv2(Vector2(body.velocity.x,body.velocity.y),body.global_position))
+	if !(body.get_parent() in player_list): # CHANGED:Hitboxes collide with Hurtboxes, so check the owning character
+		if body.name == "Parrybox":
+			set_collision_mask_value(1, false)
+			parry = true
+			if get_parent().is_on_floor() == false:
+				var selfstate = get_parent().get_node("StateMachine")
+				selfstate.state = selfstate.states.STUNNED
+		else:
+			print("Before parent:", body.name)
+			body = body.get_parent()
+			print("After parent:", body.name)
+			if body == get_parent():
+				print("SELF HIT DETECTED")
+			player_list.append(body)
+			var charstate
+			charstate = body.get_node("StateMachine")
+			weight = body.weight
+			body.percentage += damage
+			knockbackVal = knockback(body.percentage, damage, weight, kb_scaling, base_kb, 1)
+			s_angle(body)
+			charstate.state = charstate.states.HITFREEZE
+			charstate.hitfreeze(hitlag(damage,hitlag_modifier), angle_flipperv2(Vector2(body.velocity.x,body.velocity.y),body.global_position))
 		
-		body.knockback = knockbackVal
-		body.hitstun = getHitstun(knockbackVal/0.3)
-		get_parent().connected = true
-		body._frame()
+			body.knockback = knockbackVal
+			body.hitstun = getHitstun(knockbackVal/0.3)
+			get_parent().connected = true
+			body._frame()
 		
-		Globals.hitstun(hitlag(damage,hitlag_modifier),hitlag(damage,hitlag_modifier)/60)
-		get_parent().hit_pause_dur = duration - framez
-		get_parent().temp_pos = get_parent().position
-		get_parent().temp_vel = get_parent().velocity
+			Globals.hitstun(hitlag(damage,hitlag_modifier),hitlag(damage,hitlag_modifier)/60)
+			get_parent().hit_pause_dur = duration - framez
+			get_parent().temp_pos = get_parent().position
+			get_parent().temp_vel = get_parent().velocity
 
 func update_extents():
 	hitbox.shape.size = Vector2(width,height)
@@ -73,8 +88,14 @@ func _physics_process(delta):
 	if framez < duration:
 		framez += 1
 	elif framez == duration:
-		queue_free()
-		return
+		if parry == true:
+			var selfstate = get_parent().get_node("StateMachine")
+			selfstate.state = selfstate.states.STUNNED
+			queue_free()
+			return
+		else:
+			queue_free()
+			return
 	if get_parent().selfState != parentState:
 		Engine.time_scale = 1
 		queue_free()
@@ -167,10 +188,6 @@ func angle_flipperv2(body_vel :Vector2, body_position :Vector2, hdecay = 0, vdec
 			body_vel.y = (getVerticalVelocity(knockbackVal, -angle))
 			hdecay = (getHorizontalDecay(-angle))
 			vdecay = (getVerticalDecay(angle))
-			print("Angle:", angle)
-			print("Used angle:", -angle)
-			print("KBX:", body_vel.x)
-			print("KBY:", body_vel.y)
 			return([body_vel.x,body_vel.y,hdecay,vdecay])
 		1:
 			if get_parent().direction() == -1:

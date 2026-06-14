@@ -9,5 +9,7 @@ collision_layer = 0
 script = ExtResource("1")
 
 [node name="Hitbox_Shape" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
 scale = Vector2(2, 2)
 shape = SubResource("1")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
