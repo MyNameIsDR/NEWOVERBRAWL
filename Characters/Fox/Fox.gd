@@ -83,8 +83,8 @@ var DOUBLEJUMPFORCE = 1000 * 2
 var MAXAIRSPEED = 300 * 2
 var AIR_ACCEL = 25 * 2
 var FALLSPEED = 60 * 2
-var FALLINGSPEED = 900 * 2
-var MAXFALLSPEED = 900 * 2
+var FALLINGSPEED = 600 * 2
+var MAXFALLSPEED = 600 * 2
 var TRACTION = 40 * 2
 var ROLL_DISTANCE = 350 * 2
 var air_dodge_speed = 500 * 2
@@ -235,7 +235,7 @@ func JAB_1():
 		grabbing = false
 		create_grabbox(30, 40, 0, 13, Vector2(63, 0))
 	if frame == 12:
-		create_hitbox(40, 20, 9, 90, 8800, 0, 9, "normal", Vector2(48, 8), 0, 0	)
+		create_hitbox(40, 20, 9, 90, 4000, 20, 9, "normal", Vector2(48, 8), 0, 0	)
 	if  frame == 32:
 		return true
 

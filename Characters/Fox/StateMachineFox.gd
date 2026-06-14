@@ -104,7 +104,6 @@ func get_transition(delta):
 	if Input.is_action_just_pressed("shield_%s" % id) && AIREAL() && parent.cooldown == 0:
 		parent.l_cancel = 11
 		parent.cooldown = 40
-		print("L cancel is true")
 		
 	if Input.is_action_pressed("shield_%s" % id) && can_roll() == true && parent.cooldown == 0 && parent.shield_buffer == 2:
 		if Input.is_action_pressed("right_%s" % id):
@@ -174,7 +173,7 @@ func get_transition(delta):
 					parent._frame()
 				parent.velocity.x = -parent.DASHSPEED
 				if parent.frame <= parent.dash_duration-1:
-					if Input.is_action_just_pressed("down%s" % id):
+					if Input.is_action_just_pressed("down_%s" % id):
 						parent._frame()
 						return states.MOONWALK
 					parent.turn(true)
@@ -286,7 +285,7 @@ func get_transition(delta):
 			else:
 				if parent.frame >= parent.dash_duration-1:
 					for state in states:
-						if states != "JUMP_SQUAT":
+						if state != "JUMP_SQUAT":
 							return states.STAND
 				
 		
@@ -917,10 +916,8 @@ func get_transition(delta):
 				if parent.velocity.x > 0:
 					if parent.velocity.x > parent.DASHSPEED:
 						parent.velocity.x = parent.DASHSPEED
-					print("BEFORE:", parent.velocity.x)						
 					#parent.velocity.x = parent.velocity.x - parent.TRACTION*20
 					parent.velocity.x = move_toward(parent.velocity.x, 0, parent.TRACTION * 20)
-					print("AFTER:", parent.velocity.x)					
 					parent.velocity.x = clamp(parent.velocity.x,0,parent.velocity.x)
 				elif parent.velocity.x < 0:
 					if parent.velocity.x < -parent.DASHSPEED:
@@ -944,9 +941,7 @@ func get_transition(delta):
 				if parent.velocity.x > 0:
 					if parent.velocity.x > parent.DASHSPEED:
 						parent.velocity.x = parent.DASHSPEED
-					print("BEFORE:", parent.velocity.x)
 					parent.velocity.x = parent.velocity.x - parent.TRACTION*20
-					print("AFTER:", parent.velocity.x)
 					parent.velocity.x = clamp(parent.velocity.x,0,parent.velocity.x)
 				elif parent.velocity.x < 0:
 					if parent.velocity.x < -parent.DASHSPEED:
@@ -962,8 +957,6 @@ func get_transition(delta):
 					parent._frame()
 					return states.STAND
 
-
-		
 		states.GRABBED:
 			for body in get_tree().get_nodes_in_group("Character"):
 				if body.name == temp_body:
@@ -1186,11 +1179,11 @@ func Falling():
 			return true
 
 func Ledge():
-	if state_includes([states.AIR]):
+	if state_includes([states.AIR, states.FREE_FALL]):
 		if parent.Ledge_Grab_F.is_colliding():
 			var collider = parent.Ledge_Grab_F.get_collider()
 			if collider.get_node('Label').text == 'Ledge_L' and Input.get_action_strength("down_%s" % id) > 0.6 and parent.regrab == 0 && !collider.is_grabbed:
-				if state_includes([states.AIR]):
+				if state_includes([states.AIR, states.FREE_FALL]):
 					if parent.velocity.y < 0:
 						return false
 					parent.frame = 0

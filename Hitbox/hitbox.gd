@@ -41,7 +41,6 @@ func set_parameters(w,h,d,a,b_kb,kb_s,dur,t,p,af,hit,parent=get_parent()):
 	
 func Hitbox_Collide(body):
 	#body = body.get_parent()
-	print("attack_type:", vibration)
 	if !(body.get_parent() in player_list): # CHANGED:Hitboxes collide with Hurtboxes, so check the owning character
 		if body.name == "Parrybox":
 			set_collision_mask_value(1, false)
@@ -57,16 +56,12 @@ func Hitbox_Collide(body):
 			weight = body.weight
 			body.percentage += damage
 			if vibration == 0: #jab
-				print("RUMBLE TRIGGERED")
-				Input.start_joy_vibration(0, 0.15, 0.3, 0.06)
+				Input.start_joy_vibration(0, 0.5, 0.5, 0.06)
 			elif vibration == 1: #tilt
-				print("RUMBLE TRIGGERED")
-				Input.start_joy_vibration(0, 0.3, 0.6, 0.10)
+				Input.start_joy_vibration(0, 0.7, 0.7, 0.10)
 			elif vibration == 2: #projectile
-				print("RUMBLE TRIGGERED")
-				Input.start_joy_vibration(0, 0.5, 1.0, 0.14)
+				Input.start_joy_vibration(0, 0.8, 1.0, 0.14)
 			elif vibration == 3: #smash
-				print("RUMBLE TRIGGERED")
 				Input.start_joy_vibration(0, 1, 1.0, 0.4)
 			knockbackVal = knockback(body.percentage, damage, weight, kb_scaling, base_kb, 1)
 			s_angle(body)

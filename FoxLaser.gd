@@ -15,6 +15,7 @@ extends Area2D
 @export var ratio = 1
 @export var hitlag_modifier = 3
 var knockbackVal
+@export var vibration = 0
 
 var frame = 0
 var dir_x = 1
@@ -48,7 +49,15 @@ func _physics_process(delta):
 
 func _on_body_entered(body):
 	if not (body in player_list):
-		print('hit')
+		var vibration = 2
+		if vibration == 0: #jab
+			Input.start_joy_vibration(0, 0.5, 0.5, 0.1)
+		elif vibration == 1: #tilt
+			Input.start_joy_vibration(0, 0.7, 0.7, 0.10)
+		elif vibration == 2: #projectile
+			Input.start_joy_vibration(0, 0.8, 1.0, 0.05)
+		elif vibration == 3: #smash
+			Input.start_joy_vibration(0, 1, 1.0, 0.4)
 		var charstate
 		charstate = body.get_node("StateMachine")
 		knockbackVal = knockback(body.percentage, damage, body.weight, kb_scaling, base_kb, 1)
