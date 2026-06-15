@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://xxm85l1cbvc7"]
+
+[ext_resource type="Script" path="res://Characters/Debug/attacks/WetFloorSign.gd" id="1_w2xa6"]
+
+[node name="WetFloorSign" type="Area2D" groups=["players"]]
+script = ExtResource("1_w2xa6")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+[node name="Timer" type="Timer" parent="."]

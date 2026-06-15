@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://jhq5qch50ugj" path="res://Stages/Brawlerville/SSBM_Final_Destination_NavBox.png" id="4"]
 [ext_resource type="Texture2D" uid="uid://dve5cpaxghleg" path="res://Stages/Brawlerville/pixel-art-seamless-background-with-blue-sky-cloud-ground_887552-15752.png" id="5"]
 [ext_resource type="Script" path="res://Stages/StageCamera.gd" id="6"]
-[ext_resource type="PackedScene" uid="uid://d0bvpmorcvd2q" path="res://Characters/Fox/D-Bug.tscn" id="8_m34wf"]
+[ext_resource type="PackedScene" uid="uid://e5w8thxfrdah" path="res://Characters/Debug/D-Bug.tscn" id="8_fak05"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(65.332, 1.168)
@@ -113,6 +113,8 @@ script = ExtResource("6")
 [node name="FOX" parent="." instance=ExtResource("2")]
 position = Vector2(-177, 188)
 id = 1
+projectile = null
+hitbox_scene = null
 
 [node name="Ledge" parent="." instance=ExtResource("3")]
 position = Vector2(319, 13)
@@ -137,6 +139,8 @@ texture = ExtResource("4")
 [node name="Main Stage 2" type="Sprite2D" parent="."]
 position = Vector2(-871, -493)
 
-[node name="FOX2" parent="." instance=ExtResource("8_m34wf")]
-position = Vector2(354, -87)
+[node name="FOX2" parent="." instance=ExtResource("8_fak05")]
+position = Vector2(351, -241)
 id = 2
+projectile = null
+hitbox_scene = null
