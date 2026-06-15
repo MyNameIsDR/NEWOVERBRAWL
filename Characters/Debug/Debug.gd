@@ -1,4 +1,5 @@
 extends CharacterBody2D
+@export var wet_sign_scene: PackedScene
 
 #GLOBAL VARS
 var frame = 0
@@ -114,7 +115,6 @@ func create_grabbox(width,height,damage,duration,points):
 
 func create_projectile(dir_x, dir_y, point):
 	#Instance projectile
-	print(get_path(), " PROJECTILE =", projectile)
 	var projectile_instance = projectile.instantiate()
 	projectile_instance.player_list.append(self)
 	get_parent().add_child(projectile_instance)
@@ -190,6 +190,18 @@ func NEUTRAL_SPECIAL():
 	if frame == 4:
 		create_projectile(1,0,Vector2(46,3))
 	if frame == 14:
+		return true
+
+func DOWN_SPECIAL():
+	print("DOWN SPECIAL FRAME:", frame)
+	if frame == 8:
+		var sign = wet_sign_scene.instantiate()
+
+		get_parent().add_child(sign)
+
+		sign.global_position = global_position
+
+	if frame >= 25:
 		return true
 
 #TILT ATTACKS

@@ -1,12 +1,22 @@
-[gd_scene load_steps=2 format=3 uid="uid://xxm85l1cbvc7"]
+[gd_scene load_steps=4 format=3 uid="uid://xxm85l1cbvc7"]
 
 [ext_resource type="Script" path="res://Characters/Debug/attacks/WetFloorSign.gd" id="1_w2xa6"]
+[ext_resource type="Texture2D" uid="uid://ctx72153d5m65" path="res://wet-caution-board-in-pixel-art-style-vector.png" id="2_58sxb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nvrh5"]
+size = Vector2(33, 40)
 
 [node name="WetFloorSign" type="Area2D" groups=["players"]]
 script = ExtResource("1_w2xa6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.0800006, 0.0800006)
+texture = ExtResource("2_58sxb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1.5, 0)
+shape = SubResource("RectangleShape2D_nvrh5")
 
 [node name="Timer" type="Timer" parent="."]
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

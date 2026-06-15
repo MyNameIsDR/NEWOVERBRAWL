@@ -35,6 +35,7 @@ func _ready():
 	add_state('UP_TILT')
 	add_state('FORWARD_TILT')
 	add_state('NEUTRAL_SPECIAL')	
+	add_state('DOWN_SPECIAL')		
 	add_state('AIR_ATTACK')
 	add_state('NAIR')
 	add_state('UAIR')
@@ -73,8 +74,12 @@ func get_transition(delta):
 		parent.reset_ledge()
 		
 	if Input.is_action_just_pressed("special_%s" % id) && SPECIAL() == true:
-		parent._frame()
-		return states.NEUTRAL_SPECIAL
+		if Input.is_action_pressed("down_%s" % id):
+			parent._frame()
+			return states.DOWN_SPECIAL
+		else:
+			parent._frame()
+			return states.NEUTRAL_SPECIAL
 
 	if Input.is_action_just_pressed("attack_%s" % id) && AIREAL() == true:
 		if Input.is_action_pressed("up_%s" % id):
@@ -730,6 +735,8 @@ func get_transition(delta):
 						parent._frame()
 						return states.STAND
 
+		states.DOWN_SPECIAL:
+			parent.DOWN_SPECIAL()
 
 		states.AIR_ATTACK:
 			AIRMOVEMENT()
