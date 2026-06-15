@@ -1,6 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://cbfb0bb8r67ih"]
+[gd_scene load_steps=12 format=3 uid="uid://cbfb0bb8r67ih"]
 
 [ext_resource type="Script" path="res://UI/Titlescreen/Scripts/Brawl Btn.gd" id="1_nsjhr"]
+[ext_resource type="Script" path="res://UI/Titlescreen/Scripts/titlescreen.gd" id="1_utsq6"]
+[ext_resource type="Script" path="res://UI/Titlescreen/Scripts/Settings Btn.gd" id="2_dol1p"]
+[ext_resource type="Script" path="res://UI/Titlescreen/Scripts/Leave Btn.gd" id="2_ojvpi"]
 
 [sub_resource type="SystemFont" id="SystemFont_u3ms6"]
 font_names = PackedStringArray("Sylfaen")
@@ -30,6 +33,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_utsq6")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -66,6 +70,7 @@ alignment = 1
 [node name="Brawl Btn" type="Button" parent="HBox Btns Container/VBox Btns Container"]
 custom_minimum_size = Vector2(600, 100)
 layout_mode = 2
+theme_override_constants/outline_size = 11
 theme_override_font_sizes/font_size = 51
 text = "BRAWL"
 script = ExtResource("1_nsjhr")
@@ -75,40 +80,47 @@ collision_layer = 65536
 collision_mask = 524288
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HBox Btns Container/VBox Btns Container/Brawl Btn/Area2D"]
+visible = false
 position = Vector2(299.75, 50)
 shape = SubResource("RectangleShape2D_ymk8y")
 
 [node name="Settings Btn" type="Button" parent="HBox Btns Container/VBox Btns Container"]
 custom_minimum_size = Vector2(600, 100)
 layout_mode = 2
+theme_override_constants/outline_size = 11
 theme_override_font_sizes/font_size = 51
 text = "SETTINGS"
+script = ExtResource("2_dol1p")
 
 [node name="Area2D" type="Area2D" parent="HBox Btns Container/VBox Btns Container/Settings Btn"]
 collision_layer = 65536
 collision_mask = 524288
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HBox Btns Container/VBox Btns Container/Settings Btn/Area2D"]
+visible = false
 position = Vector2(300.5, 50)
 shape = SubResource("RectangleShape2D_r7ub7")
 
 [node name="Leave Btn" type="Button" parent="HBox Btns Container/VBox Btns Container"]
 custom_minimum_size = Vector2(600, 100)
 layout_mode = 2
+theme_override_constants/outline_size = 11
 theme_override_fonts/font = SubResource("SystemFont_s5hxy")
 theme_override_font_sizes/font_size = 51
 text = "LEAVE"
+script = ExtResource("2_ojvpi")
 
 [node name="Area2D" type="Area2D" parent="HBox Btns Container/VBox Btns Container/Leave Btn"]
 collision_layer = 65536
 collision_mask = 524288
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HBox Btns Container/VBox Btns Container/Leave Btn/Area2D"]
+visible = false
 position = Vector2(300, 50.25)
 shape = SubResource("RectangleShape2D_dkavg")
 
 [node name="Pointer" type="Area2D" parent="."]
-position = Vector2(1290, 375)
+position = Vector2(1501, 628)
 collision_layer = 524288
 collision_mask = 65536
 
@@ -120,3 +132,13 @@ shape = SubResource("RectangleShape2D_peflg")
 [connection signal="pressed" from="HBox Btns Container/VBox Btns Container/Brawl Btn" to="HBox Btns Container/VBox Btns Container/Brawl Btn" method="_on_pressed"]
 [connection signal="area_entered" from="HBox Btns Container/VBox Btns Container/Brawl Btn/Area2D" to="HBox Btns Container/VBox Btns Container/Brawl Btn" method="_on_Area2D_area_entered"]
 [connection signal="area_exited" from="HBox Btns Container/VBox Btns Container/Brawl Btn/Area2D" to="HBox Btns Container/VBox Btns Container/Brawl Btn" method="_on_Area2D_area_exited"]
+[connection signal="focus_entered" from="HBox Btns Container/VBox Btns Container/Settings Btn" to="HBox Btns Container/VBox Btns Container/Settings Btn" method="_on_SettingsButton_focus_entered"]
+[connection signal="focus_exited" from="HBox Btns Container/VBox Btns Container/Settings Btn" to="HBox Btns Container/VBox Btns Container/Settings Btn" method="_on_SettingsButton_focus_exited"]
+[connection signal="pressed" from="HBox Btns Container/VBox Btns Container/Settings Btn" to="HBox Btns Container/VBox Btns Container/Settings Btn" method="_on_pressed"]
+[connection signal="area_entered" from="HBox Btns Container/VBox Btns Container/Settings Btn/Area2D" to="HBox Btns Container/VBox Btns Container/Settings Btn" method="_on_Area2D_area_entered"]
+[connection signal="area_exited" from="HBox Btns Container/VBox Btns Container/Settings Btn/Area2D" to="HBox Btns Container/VBox Btns Container/Settings Btn" method="_on_Area2D_area_exited"]
+[connection signal="focus_entered" from="HBox Btns Container/VBox Btns Container/Leave Btn" to="HBox Btns Container/VBox Btns Container/Leave Btn" method="_on_LeaveButton_focus_entered"]
+[connection signal="focus_exited" from="HBox Btns Container/VBox Btns Container/Leave Btn" to="HBox Btns Container/VBox Btns Container/Leave Btn" method="_on_LeaveButton_focus_exited"]
+[connection signal="pressed" from="HBox Btns Container/VBox Btns Container/Leave Btn" to="HBox Btns Container/VBox Btns Container/Leave Btn" method="_on_pressed"]
+[connection signal="area_entered" from="HBox Btns Container/VBox Btns Container/Leave Btn/Area2D" to="HBox Btns Container/VBox Btns Container/Leave Btn" method="_on_Area2D_area_entered"]
+[connection signal="area_exited" from="HBox Btns Container/VBox Btns Container/Leave Btn/Area2D" to="HBox Btns Container/VBox Btns Container/Leave Btn" method="_on_Area2D_area_exited"]
