@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cgnlxelg17qtc"]
+[gd_scene load_steps=10 format=3 uid="uid://gd7eynl82gyx"]
 
 [ext_resource type="Texture2D" uid="uid://bp1l454owp5y1" path="res://Stages/Brawlerville/1.png" id="1"]
 [ext_resource type="Texture2D" uid="uid://c0nsv2fkqdqsm" path="res://EvansRemainsSwitchScreenshots(2).png" id="1_lea4j"]
@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://jhq5qch50ugj" path="res://Stages/Brawlerville/SSBM_Final_Destination_NavBox.png" id="4"]
 [ext_resource type="Texture2D" uid="uid://dve5cpaxghleg" path="res://Stages/Brawlerville/pixel-art-seamless-background-with-blue-sky-cloud-ground_887552-15752.png" id="5"]
 [ext_resource type="Script" path="res://Stages/StageCamera.gd" id="6"]
-[ext_resource type="PackedScene" uid="uid://fi0skhvg6jf3" path="res://Characters/Fox/scripts/attacks/fox_laser.tscn" id="7_bpwan"]
+[ext_resource type="PackedScene" uid="uid://d0bvpmorcvd2q" path="res://Characters/Fox/D-Bug.tscn" id="8_m34wf"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(65.332, 1.168)
@@ -114,10 +114,6 @@ script = ExtResource("6")
 position = Vector2(-177, 188)
 id = 1
 
-[node name="FOX2" parent="." instance=ExtResource("2")]
-position = Vector2(87, 180)
-id = 2
-
 [node name="Ledge" parent="." instance=ExtResource("3")]
 position = Vector2(319, 13)
 
@@ -141,5 +137,6 @@ texture = ExtResource("4")
 [node name="Main Stage 2" type="Sprite2D" parent="."]
 position = Vector2(-871, -493)
 
-[node name="FoxLaser" parent="." instance=ExtResource("7_bpwan")]
-position = Vector2(-602, -52)
+[node name="FOX2" parent="." instance=ExtResource("8_m34wf")]
+position = Vector2(354, -87)
+id = 2
