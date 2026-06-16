@@ -118,12 +118,10 @@ id = 1
 position = Vector2(319, 13)
 
 [node name="Ledge2" parent="." instance=ExtResource("3")]
-visible = false
 position = Vector2(-378, 307)
 scale = Vector2(1.91494, -1.51939)
 
 [node name="Ledge3" parent="." instance=ExtResource("3")]
-visible = false
 position = Vector2(551, 306)
 scale = Vector2(1.81275, 1.50532)
 ledge_Side = "Right"

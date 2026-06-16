@@ -22,6 +22,9 @@ scale = Vector2(1.35237, 1.35237)
 shape = SubResource("RectangleShape2D_nvrh5")
 
 [node name="Timer" type="Timer" parent="."]
+wait_time = 5.514
+one_shot = true
+autostart = true
 
 [node name="GroundRay" type="RayCast2D" parent="."]
 target_position = Vector2(0, 25)
