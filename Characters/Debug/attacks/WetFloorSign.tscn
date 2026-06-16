@@ -1,22 +1,35 @@
-[gd_scene load_steps=4 format=3 uid="uid://xxm85l1cbvc7"]
+[gd_scene load_steps=5 format=3 uid="uid://xxm85l1cbvc7"]
 
 [ext_resource type="Script" path="res://Characters/Debug/attacks/WetFloorSign.gd" id="1_w2xa6"]
 [ext_resource type="Texture2D" uid="uid://ctx72153d5m65" path="res://wet-caution-board-in-pixel-art-style-vector.png" id="2_58sxb"]
+[ext_resource type="Script" path="res://Characters/Debug/attacks/Hitbox.gd" id="3_q08ky"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nvrh5"]
-size = Vector2(33, 40)
+size = Vector2(43.0953, 46.585)
 
-[node name="WetFloorSign" type="Area2D" groups=["players"]]
+[node name="WetFloorSign" type="CharacterBody2D" groups=["Character"]]
+collision_mask = 6
 script = ExtResource("1_w2xa6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.0800006, 0.0800006)
+scale = Vector2(0.12, 0.12)
 texture = ExtResource("2_58sxb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1.5, 0)
+position = Vector2(-1.5, -0.500001)
+scale = Vector2(1.35237, 1.35237)
 shape = SubResource("RectangleShape2D_nvrh5")
 
 [node name="Timer" type="Timer" parent="."]
 
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[node name="GroundRay" type="RayCast2D" parent="."]
+target_position = Vector2(0, 25)
+collision_mask = 4
+
+[node name="Hitbox" type="Area2D" parent="."]
+script = ExtResource("3_q08ky")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(-1.5, -0.500001)
+scale = Vector2(1.35237, 1.35237)
+shape = SubResource("RectangleShape2D_nvrh5")

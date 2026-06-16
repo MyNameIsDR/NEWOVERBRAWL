@@ -17,6 +17,12 @@ var l_cancel = 0
 var cooldown = 0
 var shield_buffer = 0
 
+#SPECIALS
+var active_signs = []
+const MAX_SIGNS = 2
+var spawned_sign = false
+var down_special_spawned := false
+
 #KNOCKBACK
 var hdecay
 var vdecay
@@ -179,7 +185,7 @@ func reset_ledge():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass 
+	print("READY INSTANCE:", self.get_path())
 
 func _physics_process(delta):
 	$Frames.text = str(frame)
@@ -193,16 +199,26 @@ func NEUTRAL_SPECIAL():
 		return true
 
 func DOWN_SPECIAL():
-	print("DOWN SPECIAL FRAME:", frame)
-	if frame == 8:
+	if frame == 2 and not down_special_spawned:
+		down_special_spawned = true
+
 		var sign = wet_sign_scene.instantiate()
-
 		get_parent().add_child(sign)
-
 		sign.global_position = global_position
 
-	if frame >= 25:
+		active_signs.append(sign)
+
+		# enforce max signs
+		if active_signs.size() > MAX_SIGNS:
+			var old_sign = active_signs.pop_front()
+			if is_instance_valid(old_sign):
+				old_sign.queue_free()
+
+	if frame >= 7:
+		down_special_spawned = false
 		return true
+
+	return false
 
 #TILT ATTACKS
 func DOWN_TILT():

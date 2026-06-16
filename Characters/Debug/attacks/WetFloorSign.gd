@@ -1,9 +1,11 @@
-extends Area2D
+extends CharacterBody2D
 
-func _on_area_entered(area):
-	var body = area.get_parent()
+var gravity = 1200
 
-	if body.is_in_group("Character"):
-		print("SLIPPED")
+func _physics_process(delta):
+	if not is_on_floor():
+		velocity.y += gravity * delta
+	else:
+		velocity = Vector2.ZERO
 
-		queue_free()
+	move_and_slide()

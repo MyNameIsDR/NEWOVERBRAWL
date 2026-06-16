@@ -348,8 +348,12 @@ func get_transition(delta):
 				elif Input.is_action_pressed("right_%s" % id):
 					parent.velocity.x = parent.MAXAIRSPEED
 			if Input.is_action_just_pressed("special_%s" % id):
-				parent._frame()
-				return states.NEUTRAL_SPECIAL
+				if Input.get_action_strength("down_%s" % id) > 0.5:
+					parent._frame()
+					return states.DOWN_SPECIAL
+				else:
+					parent._frame()
+					return states.NEUTRAL_SPECIAL
 
 		states.LANDING:
 			if parent.frame == 1:
@@ -736,7 +740,30 @@ func get_transition(delta):
 						return states.STAND
 
 		states.DOWN_SPECIAL:
+			if AIREAL() == false:
+				if parent.velocity.x > 0:
+					if parent.velocity.x > parent.DASHSPEED:
+						parent.velocity.x = parent.DASHSPEED
+					parent.velocity.x -= parent.TRACTION * 10
+					parent.velocity.x = clampi(parent.velocity.x, 0, parent.velocity.x)
+				elif parent.velocity.x < 0:
+					if parent.velocity.x < -parent.DASHSPEED:
+						parent.velocity.x = -parent.DASHSPEED
+					parent.velocity.x += parent.TRACTION * 10
+					parent.velocity.x = clampi(parent.velocity.x, parent.velocity.x, 0)
+
+			if AIREAL():
+				AIRMOVEMENT()
+
+			# run move ONCE per frame
 			parent.DOWN_SPECIAL()
+
+			# exit condition ONLY
+			if parent.DOWN_SPECIAL():
+				if AIREAL():
+					return states.AIR
+				else:
+					return states.STAND
 
 		states.AIR_ATTACK:
 			AIRMOVEMENT()
@@ -1071,6 +1098,9 @@ func enter_state(new_state, old_state):
 		states.NEUTRAL_SPECIAL:		
 			parent.play_animation("Neutral_Special")
 			parent.states.text = str("NEUTRAL_SPECIAL")
+		states.DOWN_SPECIAL:		
+			parent.play_animation("Down_Special")
+			parent.states.text = str("DOWN_SPECIAL")
 		states.NAIR:		
 			parent.play_animation("Nair")
 			parent.states.text = str("NAIR")
