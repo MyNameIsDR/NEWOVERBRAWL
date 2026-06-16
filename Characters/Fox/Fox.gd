@@ -68,6 +68,7 @@ var grabbing = false
 @onready var gun_pos = get_node("gun_pos")
 @onready var hurtbox = %Hurtbox
 @onready var parrybox = %Parrybox
+@onready var state_machine = $StateMachine
 
 var jab_hitbox = null
 var jab_active = false
@@ -320,3 +321,8 @@ func DAIR():
 		create_hitbox(36,58,4,45,12,120,2,'normal',Vector2(28,17),0,1)
 	if frame == 17:
 		return true
+		
+func slip_stun():
+	$StateMachine.set_state($StateMachine.states.SLIP_STUN)
+	velocity.x = randf_range(-300, 300)
+	velocity.y = -20

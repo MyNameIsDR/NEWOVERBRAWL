@@ -28,6 +28,7 @@ func _ready():
 	add_state("ROLL_LEFT")
 	add_state('GRABBED')
 	add_state('STUNNED')	
+	add_state('SLIP_STUN')
 	add_state('GROUND_ATTACK')
 	add_state('JAB')
 	add_state('JAB_1')	
@@ -652,6 +653,21 @@ func get_transition(delta):
 			elif parent.frame > 60 *5:
 				return states.AIR
 
+		states.SLIP_STUN:
+			if parent.frame == 0:
+				print("ENTER SLIP")
+			
+			parent.velocity.x = lerp(parent.velocity.x, 0.0, 0.15)
+			parent.velocity.y += parent.FALLSPEED
+			
+			if parent.frame >= 100:
+				if parent.is_on_floor():
+					parent._frame()					
+					return states.STAND
+				else:
+					parent._frame()
+					return states.AIR
+
 		states.PARRY:
 			if parent.velocity.x > 0:
 				parent.velocity.x += -parent.TRACTION*10
@@ -760,6 +776,7 @@ func get_transition(delta):
 
 			# exit condition ONLY
 			if parent.DOWN_SPECIAL():
+				parent._frame()
 				if AIREAL():
 					return states.AIR
 				else:
@@ -1084,6 +1101,9 @@ func enter_state(new_state, old_state):
 		states.HITSTUN:
 			parent.play_animation("Hitstun")
 			parent.states.text = str("HITSTUN")
+		states.SLIP_STUN:
+			parent.play_animation("Slip_Stun")
+			parent.states.text = str("SLIP_STUN")
 		states.PARRY:
 			parent.play_animation("Parry")
 			parent.states.text = str("PARRY")

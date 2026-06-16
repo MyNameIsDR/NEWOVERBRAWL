@@ -203,6 +203,7 @@ func DOWN_SPECIAL():
 		down_special_spawned = true
 
 		var sign = wet_sign_scene.instantiate()
+		sign.owner_character = self
 		get_parent().add_child(sign)
 		sign.global_position = global_position
 
@@ -348,3 +349,8 @@ func DAIR():
 		create_hitbox(36,58,4,45,12,120,2,'normal',Vector2(28,17),0,1)
 	if frame == 17:
 		return true
+
+func slip_stun():
+	get_node("StateMachine").set_state(
+		get_node("StateMachine").states.SLIP_STUN
+	)

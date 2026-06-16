@@ -7,7 +7,8 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nvrh5"]
 size = Vector2(43.0953, 46.585)
 
-[node name="WetFloorSign" type="CharacterBody2D" groups=["Character"]]
+[node name="WetFloorSign" type="CharacterBody2D"]
+collision_layer = 0
 collision_mask = 6
 script = ExtResource("1_w2xa6")
 
@@ -27,9 +28,12 @@ target_position = Vector2(0, 25)
 collision_mask = 4
 
 [node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 0
 script = ExtResource("3_q08ky")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(-1.5, -0.500001)
 scale = Vector2(1.35237, 1.35237)
 shape = SubResource("RectangleShape2D_nvrh5")
+
+[connection signal="area_entered" from="Hitbox" to="Hitbox" method="_on_body_entered"]

@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+var owner_character
+
 var gravity = 1200
 
 func _physics_process(delta):

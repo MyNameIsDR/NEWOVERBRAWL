@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=176 format=3 uid="uid://0g5ic1f4ncm3"]
+[gd_resource type="SpriteFrames" load_steps=178 format=3 uid="uid://0g5ic1f4ncm3"]
 
 [ext_resource type="Texture2D" uid="uid://jx52p7kxqfca" path="res://Characters/Fox/sprites/jump_strip5.png" id="1_oavn4"]
 [ext_resource type="Texture2D" uid="uid://dhjcye1x0bxcu" path="res://Characters/Fox/sprites/airdodge_strip6.png" id="2_50qtm"]
@@ -24,6 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://bm6ojhrlqvbpy" path="res://Characters/Fox/sprites/parry_strip1.png" id="22_bcogm"]
 [ext_resource type="Texture2D" uid="uid://60b4othrl47n" path="res://Characters/Fox/sprites/roll_forward_strip8.png" id="23_8dc70"]
 [ext_resource type="Texture2D" uid="uid://dabqrmb3gjvv1" path="res://Characters/Fox/sprites/tech_strip6.png" id="24_4h1kh"]
+[ext_resource type="Texture2D" uid="uid://dx4npan15nxll" path="res://Characters/Fox/sprites/hurt_ground_strip1.png" id="24_wknkj"]
 [ext_resource type="Texture2D" uid="uid://bem4ls7ja8mqe" path="res://Characters/Fox/sprites/dashturn_strip1.png" id="25_mw2xa"]
 [ext_resource type="Texture2D" uid="uid://bun2cuy5s51cr" path="res://Characters/Fox/sprites/uair_strip4.png" id="26_voxla"]
 [ext_resource type="Texture2D" uid="uid://b68ps8lnaq0s1" path="res://Characters/Fox/sprites/ustrong_strip6.png" id="27_2cipw"]
@@ -380,6 +381,10 @@ region = Rect2(144, 0, 72, 64)
 [sub_resource type="AtlasTexture" id="126"]
 atlas = ExtResource("6_cw3hp")
 region = Rect2(216, 0, 72, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4nrv0"]
+atlas = ExtResource("24_wknkj")
+region = Rect2(0, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="128"]
 atlas = ExtResource("24_4h1kh")
@@ -996,6 +1001,14 @@ animations = [{
 }],
 "loop": true,
 "name": &"Run",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4nrv0")
+}],
+"loop": true,
+"name": &"Slip_Stun",
 "speed": 5.0
 }, {
 "frames": [{
