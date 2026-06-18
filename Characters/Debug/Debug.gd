@@ -1,5 +1,6 @@
 extends CharacterBody2D
 @export var wet_sign_scene: PackedScene
+@onready var sprite = $Sprite2D
 
 #GLOBAL VARS
 var frame = 0
@@ -22,6 +23,13 @@ var active_signs = []
 const MAX_SIGNS = 2
 var spawned_sign = false
 var down_special_spawned := false
+
+#NEUTRAL SPECIAL
+var neutral_special_phase = 0 #0 = not activationed, 1 = selecting, 2 = holding
+var hazard_timer := 0.0
+var cycle_interval := 0.5 # 0.5 second per hazard change
+var current_hazard = 0
+var selected_hazard = 0
 
 #KNOCKBACK
 var hdecay
@@ -136,6 +144,14 @@ func create_projectile(dir_x, dir_y, point):
 		projectile_instance.set_global_position(gun_pos.get_global_position())
 	return projectile_instance
 
+func throw_hazard():
+	print("THROWN")
+	var projectile = preload("res://Characters/Debug/attacks/DebugHazard.tscn").instantiate()
+	#print(projectile)
+	#print(global_position)
+	#print(projectile.glosbal_position)
+	#get_tree().current_scene.add_child(projectile)
+	create_projectile(1,0,Vector2(46,3))
 
 @onready var states = $State
 
@@ -189,12 +205,43 @@ func _ready():
 
 func _physics_process(delta):
 	$Frames.text = str(frame)
+	if neutral_special_phase == 1:
+		hazard_timer += delta
+
+		if hazard_timer >= cycle_interval:
+			hazard_timer = 0
+			current_hazard = (current_hazard + 1) % 4
+			update_hazard_visual()
+			match current_hazard:
+				0:
+					print("FIRE")
+				1:
+					print("LIGHTNING")
+				2:
+					print("ICE")
+				3:
+					print("BOMB")
+
+func update_hazard_visual():
+	sprite.frame = current_hazard
 
 #SPECIAL ATTACKS
 func NEUTRAL_SPECIAL():
-	var vibration = 2
+	print(neutral_special_phase)
 	if frame == 4:
-		create_projectile(1,0,Vector2(46,3))
+		if neutral_special_phase == 0:
+			print("START CYCLE")
+			neutral_special_phase = 1
+			return true
+		elif neutral_special_phase == 1:
+			print("LOCK")
+			selected_hazard = current_hazard
+			neutral_special_phase = 2
+			return true
+		elif neutral_special_phase == 2:
+			print("THROW")
+			throw_hazard()
+			neutral_special_phase = 0
 	if frame == 14:
 		return true
 

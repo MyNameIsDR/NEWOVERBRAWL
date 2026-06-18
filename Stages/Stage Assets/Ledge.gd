@@ -6,9 +6,6 @@ extends Area2D
 @onready var collision = $"CollisionShape2D"
 var is_grabbed = false
 
-func _on_Ledge_body_entered(body):
-	is_grabbed = true
-
 func _on_Ledge_body_exited(body):
 	is_grabbed = false
 
@@ -17,3 +14,9 @@ func _ready():
 		label.text = "Ledge_L"
 	else:
 		label.text = "Ledge_R"
+
+func grab():
+	is_grabbed = true
+
+func release():
+	is_grabbed = false

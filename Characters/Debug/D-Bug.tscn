@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://Characters/Debug/Debug.gd" id="1_33f3a"]
 [ext_resource type="PackedScene" uid="uid://dmua8ybkhpb4d" path="res://Hitbox/HITBOX.tscn" id="2_gam4g"]
 [ext_resource type="PackedScene" uid="uid://xxm85l1cbvc7" path="res://Characters/Debug/attacks/WetFloorSign.tscn" id="2_wgk4x"]
-[ext_resource type="PackedScene" uid="uid://fi0skhvg6jf3" path="res://Characters/Fox/scripts/attacks/fox_laser.tscn" id="3_1lqf3"]
 [ext_resource type="PackedScene" uid="uid://c3afau05uayjv" path="res://Grab/grabbox.tscn" id="4_8teqd"]
+[ext_resource type="PackedScene" uid="uid://dkww1plvdulyv" path="res://Characters/Debug/attacks/DebugHazard.tscn" id="4_bhufe"]
 [ext_resource type="Script" path="res://Characters/Fox/StateMachineFox.gd" id="5_gnbgi"]
 [ext_resource type="SpriteFrames" uid="uid://dqxxrumy65jcs" path="res://Characters/Debug/D-Bug_sprite_frames.tres" id="5_lq8kp"]
 [ext_resource type="AnimationLibrary" uid="uid://b4x277cgkq0wt" path="res://Characters/Fox/FoxAnimationLibrary.res" id="7_j1hi5"]
@@ -39,7 +39,7 @@ platform_floor_layers = 4278190086
 script = ExtResource("1_33f3a")
 wet_sign_scene = ExtResource("2_wgk4x")
 hitbox = ExtResource("2_gam4g")
-projectile = ExtResource("3_1lqf3")
+projectile = ExtResource("4_bhufe")
 grabbox = ExtResource("4_8teqd")
 
 [node name="Frames" type="Label" parent="."]
@@ -67,7 +67,7 @@ script = ExtResource("5_gnbgi")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-scale = Vector2(0.273529, 0.273529)
+scale = Vector2(1.5, 1.5)
 sprite_frames = ExtResource("5_lq8kp")
 animation = &"idle"
 
