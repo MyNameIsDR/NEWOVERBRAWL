@@ -743,17 +743,17 @@ func get_transition(delta):
 					parent.projectile_cooldown += 1
 					parent._frame()
 					parent.NEUTRAL_SPECIAL()
-			if parent.frame < 14:#lines from here to return.states.NEUTRAL_SPECIAL and also the line if parent.frame == 14 r specific to Fox
-				if Input.is_action_just_pressed("special_%s" % id):
-					parent._frame()
-					return states.NEUTRAL_SPECIAL
+#			if parent.frame < 14:#lines from here to return.states.NEUTRAL_SPECIAL and also the line if parent.frame == 14 r specific to Fox
+#				if Input.is_action_just_pressed("special_%s" % id):
+#					parent._frame()
+#					return states.NEUTRAL_SPECIAL
 			if parent.NEUTRAL_SPECIAL() == true:
-				if AIREAL() == true:
+				if AIREAL():
 					return states.AIR
-				if AIREAL() == false:
-					if parent.frame == 14:
-						parent._frame()
-						return states.STAND
+				else:
+					return states.STAND
+
+
 
 		states.DOWN_SPECIAL:
 			if AIREAL() == false:

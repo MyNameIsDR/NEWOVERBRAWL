@@ -1,5 +1,7 @@
 extends Area2D
 
+@onready var anim = $animated/AnimationPlayer
+
 @export var LASER_SPEED = 1500
 @onready var parent = get_parent()
 @export var duration = 60
@@ -37,7 +39,11 @@ func _ready():
 	player_list.append(parent)
 	set_process(true)
 
+func play_animation(animation_name):
+	anim.play(animation_name)
+
 func _physics_process(delta):
+	play_animation("fire")
 	frame += floor(delta * 60)
 	if frame == duration:
 		queue_free()

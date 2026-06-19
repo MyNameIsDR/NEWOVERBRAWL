@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=163 format=3 uid="uid://dqxxrumy65jcs"]
+[gd_resource type="SpriteFrames" load_steps=166 format=3 uid="uid://dqxxrumy65jcs"]
 
 [ext_resource type="Texture2D" uid="uid://btkqlw51l1w5g" path="res://Characters/Fox/sprites/q6krxtqk.jpg" id="1_1yvji"]
 [ext_resource type="Texture2D" uid="uid://dhjcye1x0bxcu" path="res://Characters/Fox/sprites/airdodge_strip6.png" id="2_0fexb"]
@@ -20,7 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://cp2h5y3cxw1co" path="res://Characters/Fox/sprites/landinglag_strip1.png" id="18_mf58b"]
 [ext_resource type="Texture2D" uid="uid://bjd2ax7h1maml" path="res://Characters/Fox/sprites/ledge_strip1.png" id="19_ik045"]
 [ext_resource type="Texture2D" uid="uid://e27v8qdei2kc" path="res://Characters/Fox/sprites/nair_strip1.png" id="20_knb8q"]
-[ext_resource type="Texture2D" uid="uid://bafoj0uolml6f" path="res://Characters/Fox/sprites/nspecial_strip1.png" id="21_5ly0u"]
+[ext_resource type="Texture2D" uid="uid://cn2ul8p6plo4e" path="res://Untitled design.png" id="21_bwuiu"]
 [ext_resource type="Texture2D" uid="uid://bm6ojhrlqvbpy" path="res://Characters/Fox/sprites/parry_strip1.png" id="22_y2uhv"]
 [ext_resource type="Texture2D" uid="uid://60b4othrl47n" path="res://Characters/Fox/sprites/roll_forward_strip8.png" id="23_cku0f"]
 [ext_resource type="Texture2D" uid="uid://dabqrmb3gjvv1" path="res://Characters/Fox/sprites/tech_strip6.png" id="24_gmcds"]
@@ -309,9 +309,21 @@ region = Rect2(0, 0, 64, 80)
 atlas = ExtResource("20_knb8q")
 region = Rect2(0, 0, 128, 128)
 
-[sub_resource type="AtlasTexture" id="110"]
-atlas = ExtResource("21_5ly0u")
-region = Rect2(0, 0, 64, 64)
+[sub_resource type="AtlasTexture" id="AtlasTexture_5qa5a"]
+atlas = ExtResource("21_bwuiu")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bvagr"]
+atlas = ExtResource("21_bwuiu")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g1pw6"]
+atlas = ExtResource("21_bwuiu")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_17vmj"]
+atlas = ExtResource("21_bwuiu")
+region = Rect2(384, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="112"]
 atlas = ExtResource("22_y2uhv")
@@ -874,7 +886,16 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("110")
+"texture": SubResource("AtlasTexture_5qa5a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bvagr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g1pw6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_17vmj")
 }],
 "loop": true,
 "name": &"Neutral_Special",

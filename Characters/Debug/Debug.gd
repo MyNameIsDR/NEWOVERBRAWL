@@ -2,6 +2,10 @@ extends CharacterBody2D
 @export var wet_sign_scene: PackedScene
 @onready var sprite = $Sprite2D
 
+var neutral_special_last_frame := -1
+var neutral_special_last_result := false
+
+
 #GLOBAL VARS
 var frame = 0
 @export var vibration = 0
@@ -27,7 +31,7 @@ var down_special_spawned := false
 #NEUTRAL SPECIAL
 var neutral_special_phase = 0 #0 = not activationed, 1 = selecting, 2 = holding
 var hazard_timer := 0.0
-var cycle_interval := 0.5 # 0.5 second per hazard change
+var cycle_interval := 2 # 0.5 second per hazard change
 var current_hazard = 0
 var selected_hazard = 0
 
@@ -207,43 +211,70 @@ func _physics_process(delta):
 	$Frames.text = str(frame)
 	if neutral_special_phase == 1:
 		hazard_timer += delta
-
 		if hazard_timer >= cycle_interval:
 			hazard_timer = 0
 			current_hazard = (current_hazard + 1) % 4
 			update_hazard_visual()
 			match current_hazard:
-				0:
-					print("FIRE")
-				1:
-					print("LIGHTNING")
-				2:
-					print("ICE")
-				3:
-					print("BOMB")
+				0: print("FIRE")
+				1: print("LIGHTNING")
+				2: print("ICE")
+				3: print("BOMB")
 
 func update_hazard_visual():
 	sprite.frame = current_hazard
 
 #SPECIAL ATTACKS
 func NEUTRAL_SPECIAL():
-	print(neutral_special_phase)
-	if frame == 4:
-		if neutral_special_phase == 0:
-			print("START CYCLE")
+	# If we've already processed this frame, just return the cached result
+	if frame == neutral_special_last_frame:
+		return neutral_special_last_result
+	neutral_special_last_frame = frame
+	# --- actual move logic below ---
+	var result := false
+	match neutral_special_phase:
+		0:
 			neutral_special_phase = 1
-			return true
-		elif neutral_special_phase == 1:
-			print("LOCK")
-			selected_hazard = current_hazard
-			neutral_special_phase = 2
-			return true
-		elif neutral_special_phase == 2:
-			print("THROW")
+			hazard_timer = 0
+			current_hazard = 0
+			anim.play("Neutral_Special")
+			result = false
+		1:
+			hazard_timer += get_physics_process_delta_time()
+			if hazard_timer >= cycle_interval:
+				hazard_timer = 0
+				current_hazard = (current_hazard + 1) % 4
+				update_hazard_visual()
+			if Input.is_action_just_pressed("special_%s" % id):
+				selected_hazard = current_hazard
+				neutral_special_phase = 2
+			result = false
+		2:
 			throw_hazard()
 			neutral_special_phase = 0
-	if frame == 14:
-		return true
+			result = true
+	neutral_special_last_result = result
+	return result
+
+
+
+#	print(neutral_special_phase)
+#	print(hazard_timer)
+#	if frame <= 3:
+#		if neutral_special_phase == 0:
+#			print("START CYCLE")
+#			neutral_special_phase = 1
+#			return true
+#		elif neutral_special_phase == 1:
+#			print("LOCK")
+#			selected_hazard = current_hazard
+#			neutral_special_phase = 2
+#			return true
+#		elif neutral_special_phase == 2:
+#			print("THROW")
+#			throw_hazard()
+#			neutral_special_phase = 0
+#			return true
 
 func DOWN_SPECIAL():
 	if frame == 2 and not down_special_spawned:
