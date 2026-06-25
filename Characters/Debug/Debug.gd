@@ -256,6 +256,8 @@ func NEUTRAL_SPECIAL():
 			if Input.is_action_just_pressed("special_%s" % id):
 				selected_hazard = current_hazard
 				neutral_special_phase = 2
+			if Input.is_action_just_pressed("left_%s" % id) or Input.is_action_just_pressed("right_%s" % id) or Input.is_action_just_pressed("up_%s" % id) or Input.is_action_just_pressed("down_%s" % id):
+				return true
 			result = false
 		2:
 			throw_hazard()
