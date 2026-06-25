@@ -1,0 +1,76 @@
+[gd_scene load_steps=5 format=3 uid="uid://jjmrl3ns7gl6"]
+
+[ext_resource type="Texture2D" uid="uid://dqecqic21oy6d" path="res://Collections-Button-GoBack.png" id="1_ywffq"]
+[ext_resource type="Texture2D" uid="uid://co3b2payyutjx" path="res://backarrow_80933.png" id="2_4n83q"]
+[ext_resource type="Texture2D" uid="uid://bvee81sdijd2b" path="res://OIP.png" id="3_cef3q"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bn18k"]
+size = Vector2(741, 597)
+
+[node name="CharacterSelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.988235, 0.745098, 0.286275, 1)
+
+[node name="CSS Sections" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Settings" type="MarginContainer" parent="CSS Sections"]
+custom_minimum_size = Vector2(0, 145)
+layout_mode = 2
+
+[node name="HBox Settings" type="HBoxContainer" parent="CSS Sections/Settings"]
+custom_minimum_size = Vector2(0, 145)
+layout_mode = 2
+alignment = 1
+
+[node name="Back Button" type="TextureButton" parent="CSS Sections/Settings/HBox Settings"]
+custom_minimum_size = Vector2(251, 145)
+layout_mode = 2
+texture_normal = ExtResource("1_ywffq")
+texture_pressed = ExtResource("2_4n83q")
+ignore_texture_size = true
+stretch_mode = 3
+
+[node name="ButtonArea2D" type="Area2D" parent="CSS Sections/Settings/HBox Settings/Back Button"]
+collision_layer = 65536
+collision_mask = 524288
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CSS Sections/Settings/HBox Settings/Back Button/ButtonArea2D"]
+position = Vector2(124.5, 92.5)
+shape = SubResource("RectangleShape2D_bn18k")
+
+[node name="Stonks" type="HBoxContainer" parent="CSS Sections/Settings/HBox Settings"]
+custom_minimum_size = Vector2(506, 0)
+layout_mode = 2
+alignment = 1
+
+[node name="TextureButton" type="TextureButton" parent="CSS Sections/Settings/HBox Settings/Stonks"]
+custom_minimum_size = Vector2(122, 0)
+layout_mode = 2
+texture_normal = ExtResource("3_cef3q")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="CharacterSelect" type="MarginContainer" parent="CSS Sections"]
+layout_mode = 2
+
+[node name="CharacterPreview" type="MarginContainer" parent="CSS Sections"]
+layout_mode = 2

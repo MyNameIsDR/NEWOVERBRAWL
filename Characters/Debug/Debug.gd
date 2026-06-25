@@ -101,9 +101,9 @@ var MAX_JUMPFORCE = 900 * 2
 var DOUBLEJUMPFORCE = 1000 * 2
 var MAXAIRSPEED = 300 * 2
 var AIR_ACCEL = 25 * 2
-var FALLSPEED = 60 * 2
-var FALLINGSPEED = 500 * 2
-var MAXFALLSPEED = 600 * 2
+var FALLSPEED = 40 * 2
+var FALLINGSPEED = 300 * 2
+var MAXFALLSPEED = 400 * 2
 var TRACTION = 40 * 2
 var ROLL_DISTANCE = 350 * 2
 var air_dodge_speed = 500 * 2
@@ -151,6 +151,8 @@ func create_projectile(dir_x, dir_y, point):
 func throw_hazard():
 	print("THROWN")
 	var projectile = preload("res://Characters/Debug/attacks/DebugHazard.tscn").instantiate()
+	print("SELECTED:", selected_hazard)
+	projectile.hazard_type = selected_hazard
 	#print(projectile)
 	#print(global_position)
 	#print(projectile.glosbal_position)
@@ -214,12 +216,17 @@ func _physics_process(delta):
 		if hazard_timer >= cycle_interval:
 			hazard_timer = 0
 			current_hazard = (current_hazard + 1) % 4
+			print("CURRENT HAZARD:", current_hazard)
 			update_hazard_visual()
 			match current_hazard:
-				0: print("FIRE")
-				1: print("LIGHTNING")
-				2: print("ICE")
-				3: print("BOMB")
+				0: 
+					print("FIRE")
+				1: 
+					print("LIGHTNING")
+				2: 
+					print("ICE")
+				3: 
+					print("BOMB")
 
 func update_hazard_visual():
 	sprite.frame = current_hazard

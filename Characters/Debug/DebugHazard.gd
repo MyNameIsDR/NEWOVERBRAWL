@@ -7,6 +7,8 @@ extends Area2D
 @export var duration = 60
 @export var damage = 3
 
+var hazard_type = 0
+
 #KNOCKBACK attributes
 @export var angle = 60
 @export var base_kb = 3860
@@ -43,7 +45,16 @@ func play_animation(animation_name):
 	anim.play(animation_name)
 
 func _physics_process(delta):
-	play_animation("fire")
+	print("THROWING HAZARD:", hazard_type)
+	match hazard_type:
+		0:
+			anim.play("fire")
+		1:
+			anim.play("ice")
+		2:
+			anim.play("lightning")
+		3:
+			anim.play("bomb")
 	frame += floor(delta * 60)
 	if frame == duration:
 		queue_free()
