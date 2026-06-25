@@ -149,15 +149,19 @@ func create_projectile(dir_x, dir_y, point):
 	return projectile_instance
 
 func throw_hazard():
-	print("THROWN")
-	var projectile = preload("res://Characters/Debug/attacks/DebugHazard.tscn").instantiate()
-	print("SELECTED:", selected_hazard)
-	projectile.hazard_type = selected_hazard
+	var p = create_projectile(1, 0, Vector2(46, 3))
+
+	p.hazard_type = selected_hazard
+
+	#print("THROWN")
+	#var projectile = preload("res://Characters/Debug/attacks/DebugHazard.tscn").instantiate()
+	#print("SELECTED:", selected_hazard)
+	#projectile.hazard_type = selected_hazard
 	#print(projectile)
 	#print(global_position)
 	#print(projectile.glosbal_position)
 	#get_tree().current_scene.add_child(projectile)
-	create_projectile(1,0,Vector2(46,3))
+	#create_projectile(1,0,Vector2(46,3))
 
 @onready var states = $State
 
@@ -229,6 +233,7 @@ func _physics_process(delta):
 					print("BOMB")
 
 func update_hazard_visual():
+	anim.stop()
 	sprite.frame = current_hazard
 
 #SPECIAL ATTACKS
@@ -248,10 +253,6 @@ func NEUTRAL_SPECIAL():
 			result = false
 		1:
 			hazard_timer += get_physics_process_delta_time()
-			if hazard_timer >= cycle_interval:
-				hazard_timer = 0
-				current_hazard = (current_hazard + 1) % 4
-				update_hazard_visual()
 			if Input.is_action_just_pressed("special_%s" % id):
 				selected_hazard = current_hazard
 				neutral_special_phase = 2

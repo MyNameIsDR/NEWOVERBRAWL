@@ -45,14 +45,13 @@ func play_animation(animation_name):
 	anim.play(animation_name)
 
 func _physics_process(delta):
-	print("THROWING HAZARD:", hazard_type)
 	match hazard_type:
 		0:
 			anim.play("fire")
 		1:
-			anim.play("ice")
-		2:
 			anim.play("lightning")
+		2:
+			anim.play("ice")
 		3:
 			anim.play("bomb")
 	frame += floor(delta * 60)
