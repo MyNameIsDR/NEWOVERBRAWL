@@ -35,7 +35,8 @@ func _ready():
 	add_state('DOWN_TILT')
 	add_state('UP_TILT')
 	add_state('FORWARD_TILT')
-	add_state('NEUTRAL_SPECIAL')	
+	add_state('NEUTRAL_SPECIAL')
+	add_state('SIDE_SPECIAL')
 	add_state('DOWN_SPECIAL')		
 	add_state('AIR_ATTACK')
 	add_state('NAIR')
@@ -53,6 +54,7 @@ func state_logic(delta):
 	parent._hit_pause(delta)
 
 func get_transition(delta):
+	print("STATE:", state)
 	# TODOConverter40 looks that snap in Godot 4.0 is float, not vector like in Godot 3 - previous value `Vector2.ZERO`
 	parent.set_up_direction(Vector2.UP)
 	parent.move_and_slide()
@@ -78,6 +80,9 @@ func get_transition(delta):
 		if Input.is_action_pressed("down_%s" % id):
 			parent._frame()
 			return states.DOWN_SPECIAL
+		if Input.is_action_pressed("left_%s" % id) or Input.is_action_pressed("right_%s" % id):
+			parent._frame()
+			return states.SIDE_SPECIAL
 		else:
 			parent._frame()
 			return states.NEUTRAL_SPECIAL
@@ -753,7 +758,32 @@ func get_transition(delta):
 				else:
 					return states.STAND
 
+		states.SIDE_SPECIAL:
+			if AIREAL() == false:
+				if parent.velocity.x > 0:
+					if parent.velocity.x > parent.DASHSPEED:
+						parent.velocity.x = parent.DASHSPEED
+					parent.velocity.x -= parent.TRACTION * 10
+					parent.velocity.x = clampi(parent.velocity.x, 0, parent.velocity.x)
+				elif parent.velocity.x < 0:
+					if parent.velocity.x < -parent.DASHSPEED:
+						parent.velocity.x = -parent.DASHSPEED
+					parent.velocity.x += parent.TRACTION * 10
+					parent.velocity.x = clampi(parent.velocity.x, parent.velocity.x, 0)
 
+			if AIREAL():
+				AIRMOVEMENT()
+
+			# run move ONCE per frame
+			parent.SIDE_SPECIAL()
+
+			# exit condition ONLY
+			if parent.SIDE_SPECIAL():
+				parent._frame()
+				if AIREAL():
+					return states.AIR
+				else:
+					return states.STAND
 
 		states.DOWN_SPECIAL:
 			if AIREAL() == false:
@@ -1118,6 +1148,9 @@ func enter_state(new_state, old_state):
 		states.NEUTRAL_SPECIAL:		
 			parent.play_animation("Neutral_Special")
 			parent.states.text = str("NEUTRAL_SPECIAL")
+		states.SIDE_SPECIAL:		
+			parent.play_animation("Side_Special")
+			parent.states.text = str("SIDE_SPECIAL")
 		states.DOWN_SPECIAL:		
 			parent.play_animation("Down_Special")
 			parent.states.text = str("DOWN_SPECIAL")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://gd7eynl82gyx"]
+[gd_scene load_steps=11 format=3 uid="uid://gd7eynl82gyx"]
 
 [ext_resource type="Texture2D" uid="uid://bp1l454owp5y1" path="res://Stages/Brawlerville/1.png" id="1"]
 [ext_resource type="Texture2D" uid="uid://c0nsv2fkqdqsm" path="res://EvansRemainsSwitchScreenshots(2).png" id="1_lea4j"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://dve5cpaxghleg" path="res://Stages/Brawlerville/pixel-art-seamless-background-with-blue-sky-cloud-ground_887552-15752.png" id="5"]
 [ext_resource type="Script" path="res://Stages/StageCamera.gd" id="6"]
 [ext_resource type="PackedScene" uid="uid://e5w8thxfrdah" path="res://Characters/Debug/D-Bug.tscn" id="8_fak05"]
+[ext_resource type="PackedScene" uid="uid://ct6yn7n4s1s30" path="res://Characters/Debug/attacks/DebugTape.tscn" id="9_nec4w"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(65.332, 1.168)
@@ -134,4 +135,5 @@ texture = ExtResource("4")
 position = Vector2(-871, -493)
 
 [node name="DEBUG" parent="." instance=ExtResource("8_fak05")]
+tape_scene = ExtResource("9_nec4w")
 id = 2

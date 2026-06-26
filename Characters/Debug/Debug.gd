@@ -1,6 +1,7 @@
 extends CharacterBody2D
 @export var wet_sign_scene: PackedScene
 @onready var sprite = $Sprite2D
+@export var tape_scene: PackedScene
 
 var neutral_special_last_frame := -1
 var neutral_special_last_result := false
@@ -27,6 +28,10 @@ var active_signs = []
 const MAX_SIGNS = 2
 var spawned_sign = false
 var down_special_spawned := false
+
+var current_tape
+var side_special_phase = 0
+var bike_speed = 50
 
 #NEUTRAL SPECIAL
 var neutral_special_phase = 0 #0 = not activationed, 1 = selecting, 2 = holding
@@ -285,6 +290,43 @@ func NEUTRAL_SPECIAL():
 #			throw_hazard()
 #			neutral_special_phase = 0
 #			return true
+
+func SIDE_SPECIAL():
+	side_special_phase 
+	var delta = get_physics_process_delta_time()
+	# PHASE 0 - spawn tape
+	if side_special_phase == 0:
+		print("Phaase 0")
+		current_tape = tape_scene.instantiate()
+		get_parent().add_child(current_tape)
+		side_special_phase = 1
+		return
+
+	# PHASE 1 - extend tape
+	elif side_special_phase == 1:
+		print("Phaase 1")		
+		if Input.is_action_pressed("special_%s" % id):
+			current_tape.extend(delta)
+			velocity.x = 0  # IMPORTANT: freeze movement here
+		else:
+			side_special_phase = 2
+			return
+
+	# PHASE 2 - bike move
+	elif side_special_phase == 2:
+		print("Phaase 2")		
+		velocity.y += GRAVITY * delta  # keep physics consistent
+
+		velocity.x = direction() * bike_speed
+
+		global_position.x += velocity.x * delta
+
+		# EXIT CONDITION (CRITICAL)
+		if is_on_floor() and abs(velocity.x) < 10:
+			side_special_phase = 0
+			current_tape.queue_free()
+			velocity = Vector2.ZERO
+			return
 
 func DOWN_SPECIAL():
 	if frame == 2 and not down_special_spawned:

@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://ct6yn7n4s1s30"]
+
+[ext_resource type="Script" path="res://Characters/Debug/attacks/DebugTape.gd" id="1_xd54s"]
+[ext_resource type="Texture2D" uid="uid://ic5ebvcn1e22" path="res://Characters/Debug/yellow-and-black-caution-tape-barricade-tape-seamless-striped-pattern-or-texture-vector.png" id="2_7535n"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_xd54s")
+
+[node name="Line" type="Line2D" parent="."]
+position = Vector2(942, 460)
+default_color = Color(1, 1, 0, 1)
+texture = ExtResource("2_7535n")
+texture_mode = 1

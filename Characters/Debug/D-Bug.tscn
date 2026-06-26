@@ -1,8 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://e5w8thxfrdah"]
+[gd_scene load_steps=16 format=3 uid="uid://e5w8thxfrdah"]
 
 [ext_resource type="Script" path="res://Characters/Debug/Debug.gd" id="1_33f3a"]
 [ext_resource type="PackedScene" uid="uid://dmua8ybkhpb4d" path="res://Hitbox/HITBOX.tscn" id="2_gam4g"]
 [ext_resource type="PackedScene" uid="uid://xxm85l1cbvc7" path="res://Characters/Debug/attacks/WetFloorSign.tscn" id="2_wgk4x"]
+[ext_resource type="PackedScene" uid="uid://ct6yn7n4s1s30" path="res://Characters/Debug/attacks/DebugTape.tscn" id="3_fbabf"]
 [ext_resource type="PackedScene" uid="uid://c3afau05uayjv" path="res://Grab/grabbox.tscn" id="4_8teqd"]
 [ext_resource type="PackedScene" uid="uid://dkww1plvdulyv" path="res://Characters/Debug/attacks/DebugHazard.tscn" id="4_bhufe"]
 [ext_resource type="Script" path="res://Characters/Fox/StateMachineFox.gd" id="5_gnbgi"]
@@ -38,6 +39,7 @@ platform_on_leave = 2
 platform_floor_layers = 4278190086
 script = ExtResource("1_33f3a")
 wet_sign_scene = ExtResource("2_wgk4x")
+tape_scene = ExtResource("3_fbabf")
 hitbox = ExtResource("2_gam4g")
 projectile = ExtResource("4_bhufe")
 grabbox = ExtResource("4_8teqd")
