@@ -10,6 +10,9 @@ var side_special_last_frame := -1
 var side_special_last_result := false
 var bike_timer = 0
 
+var special_press_time := 0.0
+var flick_threshold := 0.12 # 7–10 frames
+
 #GLOBAL VARS
 var frame = 0
 @export var vibration = 0
@@ -299,26 +302,23 @@ func NEUTRAL_SPECIAL():
 #			return true
 
 func SIDE_SPECIAL():
-	var is_hold := false
-	is_hold = Input.is_action_pressed("special_%s" % id)# and !is_flick()
 	match side_special_phase:
-
 		0:
-#			current_tape = tape_scene.instantiate()
-#			get_parent().add_child(current_tape)
-#
-#			current_tape.global_position = global_position
-
+			special_press_time = 0.0
 			if Input.is_action_pressed("special_%s" % id):
 				anim.play("Parry")
 				bike_mode = "strong"
 			else:
 				anim.play("Stunned")
 				bike_mode = "fast"
-
 			side_special_phase = 1
 		1:
-			#add bike
+			if Input.is_action_pressed("special_%s" % id):
+				special_press_time += get_physics_process_delta_time()
+			if special_press_time < flick_threshold:
+				mode = "flick"
+			else:
+				mode = "hold"
 			return true
 			
 #	velocity.y = 0

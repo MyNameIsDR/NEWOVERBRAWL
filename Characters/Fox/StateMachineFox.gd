@@ -1,9 +1,6 @@
 extends StateMachine
 @onready var id = get_parent().id
 
-var special_press_time := 0.0
-var flick_threshold := 0.12 # 7–10 frames
-
 func _ready():
 	add_state('STAND')
 	add_state('RUN')
@@ -60,9 +57,6 @@ func get_transition(delta):
 	# TODOConverter40 looks that snap in Godot 4.0 is float, not vector like in Godot 3 - previous value `Vector2.ZERO`
 	parent.set_up_direction(Vector2.UP)
 	parent.move_and_slide()
-	
-	if Input.is_action_just_pressed("special_%s" % id):
-		special_press_time = 0.0
 	
 	if Input.is_action_just_pressed("attack_%s" % id) && TILT() == true:
 		parent._frame()
