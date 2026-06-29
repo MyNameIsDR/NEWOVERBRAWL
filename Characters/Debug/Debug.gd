@@ -6,6 +6,8 @@ extends CharacterBody2D
 var neutral_special_last_frame := -1
 var neutral_special_last_result := false
 
+var side_special_last_frame := -1
+var side_special_last_result := false
 
 #GLOBAL VARS
 var frame = 0
@@ -292,41 +294,74 @@ func NEUTRAL_SPECIAL():
 #			return true
 
 func SIDE_SPECIAL():
-	side_special_phase 
-	var delta = get_physics_process_delta_time()
-	# PHASE 0 - spawn tape
-	if side_special_phase == 0:
-		print("Phaase 0")
-		current_tape = tape_scene.instantiate()
-		get_parent().add_child(current_tape)
-		side_special_phase = 1
-		return
+	if frame == side_special_last_frame:
+		return side_special_last_result
 
-	# PHASE 1 - extend tape
-	elif side_special_phase == 1:
-		print("Phaase 1")		
-		if Input.is_action_pressed("special_%s" % id):
-			current_tape.extend(delta)
-			velocity.x = 0  # IMPORTANT: freeze movement here
-		else:
-			side_special_phase = 2
-			return
+	side_special_last_frame = frame
 
-	# PHASE 2 - bike move
-	elif side_special_phase == 2:
-		print("Phaase 2")		
-		velocity.y += GRAVITY * delta  # keep physics consistent
+	var result := false
 
-		velocity.x = direction() * bike_speed
+	match side_special_phase:
 
-		global_position.x += velocity.x * delta
+		0:
+			current_tape = tape_scene.instantiate()
+			get_parent().add_child(current_tape)
 
-		# EXIT CONDITION (CRITICAL)
-		if is_on_floor() and abs(velocity.x) < 10:
-			side_special_phase = 0
-			current_tape.queue_free()
-			velocity = Vector2.ZERO
-			return
+			side_special_phase = 1
+
+		1:
+			# hold to extend
+			if Input.is_action_pressed("special_%s" % id):
+				current_tape.extend(get_physics_process_delta_time())
+
+			if Input.is_action_just_released("special_%s" % id):
+				side_special_phase = 2
+
+		#2:
+			# bike
+			# ...
+			# when finished:
+			# side_special_phase = 0
+			# result = true
+
+	side_special_last_result = result
+	return result
+
+#func SIDE_SPECIAL():
+#	var delta = get_physics_process_delta_time()
+#	# PHASE 0 - spawn tape
+#	if side_special_phase == 0:
+#		print("Phaase 0")
+#		current_tape = tape_scene.instantiate()
+#		get_parent().add_child(current_tape)
+#		side_special_phase = 1
+#		return 
+#
+#	# PHASE 1 - extend tape
+#	elif side_special_phase == 1:
+#		print("Phaase 1")		
+#		if Input.is_action_pressed("special_%s" % id):
+#			current_tape.extend(delta)
+#			velocity.x = 0  # IMPORTANT: freeze movement here
+#		else:
+#			side_special_phase = 2
+#			return
+#
+#	# PHASE 2 - bike move
+#	elif side_special_phase == 2:
+#		print("Phaase 2")		
+#		velocity.y += GRAVITY * delta  # keep physics consistent
+#
+#		velocity.x = direction() * bike_speed
+#
+#		global_position.x += velocity.x * delta
+#
+#		# EXIT CONDITION (CRITICAL)
+#		if is_on_floor() and abs(velocity.x) < 10:
+#			side_special_phase = 0
+#			current_tape.queue_free()
+#			velocity = Vector2.ZERO
+#			return
 
 func DOWN_SPECIAL():
 	if frame == 2 and not down_special_spawned:

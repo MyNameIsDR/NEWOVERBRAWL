@@ -759,6 +759,18 @@ func get_transition(delta):
 					return states.STAND
 
 		states.SIDE_SPECIAL:
+			parent.velocity.x = 0
+
+			if !parent.is_on_floor():
+				parent.velocity.y += parent.FALLSPEED
+
+			if parent.SIDE_SPECIAL():
+				parent._frame()
+				return states.STAND if parent.is_on_floor() else states.AIR
+				
+		states.BACK_SPECIAL:
+			print("SWITCHING TO BACK SPECIAL")
+			print(state)
 			if AIREAL() == false:
 				if parent.velocity.x > 0:
 					if parent.velocity.x > parent.DASHSPEED:
