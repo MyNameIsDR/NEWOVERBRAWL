@@ -7,7 +7,6 @@
 script = ExtResource("1_xd54s")
 
 [node name="Line" type="Line2D" parent="."]
-position = Vector2(942, 460)
 default_color = Color(1, 1, 0, 1)
 texture = ExtResource("2_7535n")
 texture_mode = 1

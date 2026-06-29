@@ -8,6 +8,7 @@ var neutral_special_last_result := false
 
 var side_special_last_frame := -1
 var side_special_last_result := false
+var bike_timer = 0
 
 #GLOBAL VARS
 var frame = 0
@@ -30,6 +31,10 @@ var active_signs = []
 const MAX_SIGNS = 2
 var spawned_sign = false
 var down_special_spawned := false
+
+const TAP_LENGTH = 150
+const HOLD_LENGTH = 400
+var bike_mode
 
 var current_tape
 var side_special_phase = 0
@@ -294,38 +299,60 @@ func NEUTRAL_SPECIAL():
 #			return true
 
 func SIDE_SPECIAL():
-	if frame == side_special_last_frame:
-		return side_special_last_result
-
-	side_special_last_frame = frame
-
-	var result := false
-
+	var is_hold := false
+	is_hold = Input.is_action_pressed("special_%s" % id)# and !is_flick()
 	match side_special_phase:
 
 		0:
-			current_tape = tape_scene.instantiate()
-			get_parent().add_child(current_tape)
+#			current_tape = tape_scene.instantiate()
+#			get_parent().add_child(current_tape)
+#
+#			current_tape.global_position = global_position
+
+			if Input.is_action_pressed("special_%s" % id):
+				anim.play("Parry")
+				bike_mode = "strong"
+			else:
+				anim.play("Stunned")
+				bike_mode = "fast"
 
 			side_special_phase = 1
-
 		1:
-			# hold to extend
-			if Input.is_action_pressed("special_%s" % id):
-				current_tape.extend(get_physics_process_delta_time())
-
-			if Input.is_action_just_released("special_%s" % id):
-				side_special_phase = 2
-
-		#2:
-			# bike
-			# ...
-			# when finished:
-			# side_special_phase = 0
-			# result = true
-
-	side_special_last_result = result
-	return result
+			#add bike
+			return true
+			
+#	velocity.y = 0
+#	var delta = get_physics_process_delta_time()
+#
+#	match side_special_phase:
+#
+#		0:
+#			bike_timer = 0
+#			current_tape = tape_scene.instantiate()
+#			get_parent().add_child(current_tape)
+#
+#			current_tape.tape_length = 0
+#			current_tape.global_position = global_position
+#			current_tape.facing = direction()
+#			current_tape.set_length(150)
+#			current_tape.update_line()
+#
+#			side_special_phase = 1
+#
+#		1:
+#			if Input.is_action_pressed("special_%s" % id):
+#				current_tape.extend(delta)
+#
+#			bike_timer += delta
+#
+#			if bike_timer > 0.2:
+#				side_special_phase = 2
+#
+#		2:
+#			# for now just exit immediately
+#			side_special_phase = 0
+#			return true
+#			current_tape.queue_free()
 
 #func SIDE_SPECIAL():
 #	var delta = get_physics_process_delta_time()

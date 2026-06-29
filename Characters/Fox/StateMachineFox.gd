@@ -1,6 +1,9 @@
 extends StateMachine
 @onready var id = get_parent().id
 
+var special_press_time := 0.0
+var flick_threshold := 0.12 # 7–10 frames
+
 func _ready():
 	add_state('STAND')
 	add_state('RUN')
@@ -54,10 +57,12 @@ func state_logic(delta):
 	parent._hit_pause(delta)
 
 func get_transition(delta):
-	print("STATE:", state)
 	# TODOConverter40 looks that snap in Godot 4.0 is float, not vector like in Godot 3 - previous value `Vector2.ZERO`
 	parent.set_up_direction(Vector2.UP)
 	parent.move_and_slide()
+	
+	if Input.is_action_just_pressed("special_%s" % id):
+		special_press_time = 0.0
 	
 	if Input.is_action_just_pressed("attack_%s" % id) && TILT() == true:
 		parent._frame()
@@ -759,39 +764,23 @@ func get_transition(delta):
 					return states.STAND
 
 		states.SIDE_SPECIAL:
+			#parent.SIDE_SPECIAL()
 			parent.velocity.x = 0
-
-			if !parent.is_on_floor():
-				parent.velocity.y += parent.FALLSPEED
-
-			if parent.SIDE_SPECIAL():
-				parent._frame()
-				return states.STAND if parent.is_on_floor() else states.AIR
-				
-		states.BACK_SPECIAL:
-			print("SWITCHING TO BACK SPECIAL")
-			print(state)
-			if AIREAL() == false:
-				if parent.velocity.x > 0:
-					if parent.velocity.x > parent.DASHSPEED:
-						parent.velocity.x = parent.DASHSPEED
-					parent.velocity.x -= parent.TRACTION * 10
-					parent.velocity.x = clampi(parent.velocity.x, 0, parent.velocity.x)
-				elif parent.velocity.x < 0:
-					if parent.velocity.x < -parent.DASHSPEED:
-						parent.velocity.x = -parent.DASHSPEED
-					parent.velocity.x += parent.TRACTION * 10
-					parent.velocity.x = clampi(parent.velocity.x, parent.velocity.x, 0)
-
-			if AIREAL():
+#					if parent.velocity.x > 0:
+#						if parent.velocity.x > parent.DASHSPEED:
+#							parent.velocity.x = parent.DASHSPEED
+#						parent.velocity.x = parent.velocity.x - parent.TRACTION*10
+#						parent.velocity.x = clampi(parent.velocity.x, 0, parent.velocity.x)
+#					elif parent.velocity.x < 0:
+#						if parent.velocity.x < -parent.DASHSPEED:
+#							parent.velocity.x = -parent.DASHSPEED
+#						parent.velocity.x = parent.velocity.x + parent.TRACTION*10
+#						parent.velocity.x = clampi(parent.velocity.x,parent.velocity.x,0)
+			
+			if AIREAL() == true:
 				AIRMOVEMENT()
-
-			# run move ONCE per frame
-			parent.SIDE_SPECIAL()
-
-			# exit condition ONLY
-			if parent.SIDE_SPECIAL():
-				parent._frame()
+			
+			if parent.SIDE_SPECIAL() == true:
 				if AIREAL():
 					return states.AIR
 				else:
