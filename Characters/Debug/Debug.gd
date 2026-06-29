@@ -306,20 +306,20 @@ func SIDE_SPECIAL():
 		0:
 			special_press_time = 0.0
 			if Input.is_action_pressed("special_%s" % id):
-				anim.play("Parry")
+				#anim.play("Parry")
 				bike_mode = "strong"
 			else:
-				anim.play("Stunned")
+				#anim.play("Stunned")
 				bike_mode = "fast"
 			side_special_phase = 1
 		1:
 			if Input.is_action_pressed("special_%s" % id):
 				special_press_time += get_physics_process_delta_time()
-			if special_press_time < flick_threshold:
-				mode = "flick"
-			else:
-				mode = "hold"
-			return true
+#			if special_press_time < flick_threshold:
+#				mode = "flick"
+#			else:
+#				mode = "hold"
+#			return true
 			
 #	velocity.y = 0
 #	var delta = get_physics_process_delta_time()

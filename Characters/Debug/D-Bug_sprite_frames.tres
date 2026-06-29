@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=166 format=3 uid="uid://dqxxrumy65jcs"]
+[gd_resource type="SpriteFrames" load_steps=179 format=3 uid="uid://dqxxrumy65jcs"]
 
 [ext_resource type="Texture2D" uid="uid://btkqlw51l1w5g" path="res://Characters/Fox/sprites/q6krxtqk.jpg" id="1_1yvji"]
 [ext_resource type="Texture2D" uid="uid://dhjcye1x0bxcu" path="res://Characters/Fox/sprites/airdodge_strip6.png" id="2_0fexb"]
@@ -23,6 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://cn2ul8p6plo4e" path="res://Untitled design.png" id="21_bwuiu"]
 [ext_resource type="Texture2D" uid="uid://bm6ojhrlqvbpy" path="res://Characters/Fox/sprites/parry_strip1.png" id="22_y2uhv"]
 [ext_resource type="Texture2D" uid="uid://60b4othrl47n" path="res://Characters/Fox/sprites/roll_forward_strip8.png" id="23_cku0f"]
+[ext_resource type="Texture2D" uid="uid://csj4cyefhdln2" path="res://Characters/Debug/sprite-sheet (1).png" id="24_6t251"]
 [ext_resource type="Texture2D" uid="uid://dabqrmb3gjvv1" path="res://Characters/Fox/sprites/tech_strip6.png" id="24_gmcds"]
 [ext_resource type="Texture2D" uid="uid://bem4ls7ja8mqe" path="res://Characters/Fox/sprites/dashturn_strip1.png" id="25_ip05d"]
 [ext_resource type="Texture2D" uid="uid://bun2cuy5s51cr" path="res://Characters/Fox/sprites/uair_strip4.png" id="26_8paol"]
@@ -376,6 +377,54 @@ region = Rect2(144, 0, 72, 64)
 [sub_resource type="AtlasTexture" id="126"]
 atlas = ExtResource("6_f1xvd")
 region = Rect2(216, 0, 72, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_krml6"]
+atlas = ExtResource("24_6t251")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n8e7q"]
+atlas = ExtResource("24_6t251")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c2fbu"]
+atlas = ExtResource("24_6t251")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kdlsk"]
+atlas = ExtResource("24_6t251")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8h638"]
+atlas = ExtResource("24_6t251")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_corq3"]
+atlas = ExtResource("24_6t251")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qu8s4"]
+atlas = ExtResource("24_6t251")
+region = Rect2(768, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2qvcv"]
+atlas = ExtResource("24_6t251")
+region = Rect2(896, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_toge2"]
+atlas = ExtResource("24_6t251")
+region = Rect2(1024, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ktc0i"]
+atlas = ExtResource("24_6t251")
+region = Rect2(1152, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fqpqd"]
+atlas = ExtResource("24_6t251")
+region = Rect2(1280, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4mdma"]
+atlas = ExtResource("24_6t251")
+region = Rect2(1408, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="128"]
 atlas = ExtResource("24_gmcds")
@@ -953,6 +1002,47 @@ animations = [{
 }],
 "loop": true,
 "name": &"Run",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_krml6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n8e7q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c2fbu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kdlsk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8h638")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_corq3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qu8s4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2qvcv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_toge2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ktc0i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fqpqd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4mdma")
+}],
+"loop": true,
+"name": &"Side_Special",
 "speed": 5.0
 }, {
 "frames": [{
