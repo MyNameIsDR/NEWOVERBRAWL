@@ -9,6 +9,14 @@ var neutral_special_last_result := false
 var side_special_last_frame := -1
 var side_special_last_result := false
 var bike_timer = 0
+var bike_finished = true
+const SHORT_DISTANCE = 80
+const LONG_DISTANCE = 120
+var bike_target_distance = SHORT_DISTANCE
+var bike_start_x
+var bike_target_x = 100
+var bike_distance_left = 0.0
+var bike_started = false
 
 var special_press_time := 0.0
 var flick_threshold := 0.12 # 7–10 frames
@@ -304,22 +312,52 @@ func NEUTRAL_SPECIAL():
 func SIDE_SPECIAL():
 	match side_special_phase:
 		0:
-			special_press_time = 0.0
-			if Input.is_action_pressed("special_%s" % id):
-				#anim.play("Parry")
-				bike_mode = "strong"
-			else:
-				#anim.play("Stunned")
-				bike_mode = "fast"
+			anim.play("Side_Special_1")
 			side_special_phase = 1
+			print("this IS too short")
 		1:
-			if Input.is_action_pressed("special_%s" % id):
-				special_press_time += get_physics_process_delta_time()
-#			if special_press_time < flick_threshold:
-#				mode = "flick"
-#			else:
-#				mode = "hold"
-#			return true
+			if frame == 7:
+				if Input.is_action_pressed("special_%s" % id):
+					bike_mode = "long"
+					anim.play("Side_Special_2")
+					print("go long")
+				else:
+					bike_mode = "short"
+					anim.play("Side_Special_1")
+					print("shawdy")
+
+				side_special_phase = 2
+		2:
+			if frame == 29:
+				anim.play("Bike")
+				side_special_phase = 3
+				bike_finished = false
+				
+		3:
+			# Initialize ONCE
+			if !bike_started:
+				bike_started = true
+
+				if bike_mode == "short":
+					bike_distance_left = SHORT_DISTANCE
+				else:
+					bike_distance_left = LONG_DISTANCE
+
+			# Move
+			velocity.x = direction() * bike_speed
+
+			# Subtract the distance travelled this frame
+			bike_distance_left -= abs(velocity.x) * 60
+			
+			print(bike_distance_left)
+			print(velocity.x)
+			
+			# Stop when we've travelled far enough
+			if bike_distance_left <= 0:
+				velocity.x = 0
+				bike_started = false
+				side_special_phase = 0
+				return true
 			
 #	velocity.y = 0
 #	var delta = get_physics_process_delta_time()

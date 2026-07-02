@@ -759,7 +759,6 @@ func get_transition(delta):
 
 		states.SIDE_SPECIAL:
 			#parent.SIDE_SPECIAL()
-			parent.velocity.x = 0
 #					if parent.velocity.x > 0:
 #						if parent.velocity.x > parent.DASHSPEED:
 #							parent.velocity.x = parent.DASHSPEED
